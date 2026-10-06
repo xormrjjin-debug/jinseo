@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김진서</title>
+<meta name="description" content="김진서">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar mono">
+    <a class="home" href="index.html"><span class="dot"></span>Jinseo Kim</a>
+    <nav>
+      <a href="index.html" class="on">Home</a>
+      <a href="tmi.html">TMI</a>
+      <a href="day.html">A Day</a>
+      <a href="quotes.html">Quotes</a>
+      <a href="manual.html">Manual</a>
+      <a href="someday.html">Someday</a>
+      <a href="faq.html">FAQ</a>
+      <a href="ask.html">Ask</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <span>GWANGJU <span id="clock">--:--</span></span>
+  </div>
+
+  <main class="dash">
+
+  <div class="dash-top">
+    <!-- 프로필 -->
+    <aside class="card pcard rv">
+      <div class="pc-photo"><img src="images/profile.jpg" alt="김진서"></div>
+      <p class="pc-name">김진서 <span class="mono">Jinseo Kim</span></p>
+      <h1 class="pc-hook">대체로 괜찮은 사람입니다.<sup>*</sup></h1>
+      <p class="pc-note mono">* 개인차 있음. 자세한 건 아래에.</p>
+      <!-- 상태 메시지: 여기만 바꾸면 됩니다 -->
+      <p class="pc-status"><span class="dot"></span>지금: 커피 마시는 중</p>
+      <div class="socials">
+        <a href="mailto:jjin0315@jnu.ac.kr" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+        <a href="https://instagram.com/gamaake" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg></a>
+      </div>
+    </aside>
+
+    <div class="dash-side">
+      <!-- 최근 소식: 맨 위에 한 줄씩 추가 -->
+      <section class="card rv">
+        <div class="card-head mono"><span>최근 소식</span><span>News</span></div>
+        <ul class="news">
+          <li><time class="mono">10.06</time><span>질문함을 열었습니다. 아무거나 물어보셔도 됩니다.</span></li>
+          <li><time class="mono">10.06</time><span>사진첩이 생겼습니다. 사진은 아직 한 장입니다.</span></li>
+          <li><time class="mono">10.06</time><span>방문자 수를 달았습니다. 대체로 제가 들어옵니다.</span></li>
+          <li><time class="mono">10.04</time><span>홈페이지를 만들었습니다. 생각보다 오래 걸렸습니다.</span></li>
+        </ul>
+      </section>
+
+      <section class="card rv">
+        <div class="card-head mono"><span>Random TMI</span><span>No. <span id="tmi-no">01</span> / <span id="tmi-total">00</span></span></div>
+        <p class="rand-text" id="tmi-text">커피 중독입니다. 사실 다들 압니다.</p>
+        <button type="button" class="rand-btn mono" id="tmi-btn">TMI 하나 더 →</button>
+      </section>
+    </div>
+  </div>
+
+  <section class="card rv">
+    <div class="card-head mono"><span>About</span><span>자기소개</span></div>
+    <p class="about"><strong>김진서</strong>입니다. 이력서에는 안 쓰는 이야기만 있습니다. 학교나 전공 얘기는 없습니다. 그건 물어보면 대답합니다. 여기엔 대신 제가 뭘 쓸데없이 잘하는지, 술은 몇 병 먹는지 같은 게 있습니다. 끝까지 읽으면 저랑 밥 한 끼 정도는 같이 먹을 수 있는 사이가 됩니다. 아마도요.</p>
+  </section>
+
+  <section class="card rv">
+    <div class="card-head mono"><span>최근 사진</span><a href="gallery.html">더 보기 →</a></div>
+    <div class="thumbs">
+      <a href="gallery.html"><img src="images/profile.jpg" alt="치즈버거를 먹는 김진서" loading="lazy"></a>
+      <span class="empty mono">곧 올라옵니다</span>
+      <span class="empty mono">아마도요</span>
+      <span class="empty mono">대체로요</span>
+    </div>
+  </section>
+
+  <section class="card rv">
+    <div class="card-head mono"><span>바로가기</span><span>Menu</span></div>
+    <nav class="quick">
+          <a href="tmi.html"><span class="mono">01</span><b>My TMI</b><span class="t">알아도 딱히 도움은 안 됩니다.</span><span class="go">→</span></a>
+          <a href="day.html"><span class="mono">02</span><b>A Day</b><span class="t">하루는 대체로 비슷하게 흘러갑니다.</span><span class="go">→</span></a>
+          <a href="quotes.html"><span class="mono">03</span><b>Things people say</b><span class="t">남들이 그러는데 제가 이렇답니다.</span><span class="go">→</span></a>
+          <a href="manual.html"><span class="mono">04</span><b>How to deal with me</b><span class="t">다루기 어렵지 않습니다.</span><span class="go">→</span></a>
+          <a href="someday.html"><span class="mono">05</span><b>Someday</b><span class="t">언젠가는 할 겁니다.</span><span class="go">→</span></a>
+          <a href="faq.html"><span class="mono">06</span><b>FAQ</b><span class="t">사실 아무도 안 물어봤습니다.</span><span class="go">→</span></a>
+          <a href="ask.html"><span class="mono">07</span><b>Ask</b><span class="t">궁금한 게 있으면 물어보셔도 됩니다.</span><span class="go">→</span></a>
+          <a href="gallery.html"><span class="mono">08</span><b>Gallery</b><span class="t">사진은 대체로 잘 나온 것만 올립니다.</span><span class="go">→</span></a>
+          <a href="contact.html"><span class="mono">09</span><b>Contact</b><span class="t">더 궁금하다면. 답장은 대체로 합니다.</span><span class="go">→</span></a>
+    </nav>
+  </section>
+
+  </main>
+
+  <footer class="mono">
+    <span>© 2026 Jinseo Kim</span>
+    <a class="mail" href="mailto:jjin0315@jnu.ac.kr">jjin0315@jnu.ac.kr</a>
+    <span id="visits"></span>
+    <span>Last updated 2026.10</span>
+  </footer>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>
