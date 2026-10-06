@@ -13,7 +13,7 @@
   const visits = document.getElementById('visits');
   if (visits) {
     const api = 'https://abacus.jasoncameron.dev';
-    const ns = 'xormrjjin-debug-jinseo';
+    const ns = 'xormrjjin-debug-jinseo-v2';
     const day = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' }).replace(/-/g, '');
     let counted = false;
     try { counted = sessionStorage.getItem('counted') === '1'; } catch (e) {}
@@ -102,10 +102,11 @@
     });
   };
   tabBtns.forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
-  document.querySelectorAll('.bar nav a[data-tab]').forEach(a => a.addEventListener('click', e => {
+  document.querySelectorAll('a[data-tab]').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
     openTab(a.dataset.tab);
-    document.getElementById('about').scrollIntoView();
+    const box = document.getElementById('about');
+    if (box.getBoundingClientRect().top < 0 || window.innerWidth <= 820) box.scrollIntoView();
   }));
   const fromHash = location.hash.slice(1);
   if (document.getElementById('p-' + fromHash)) { openTab(fromHash); }
