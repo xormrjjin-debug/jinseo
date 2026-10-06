@@ -113,7 +113,11 @@
 
   // 질문함 (구글 폼으로 전송)
   // 구글 폼을 연결하면 아래 세 값을 채웁니다.
-  const GFORM = { action: '', question: '', name: '' };
+  const GFORM = {
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLScLmgt32PxkWkS45eZfbR4Ofhi3tz7xVRiOgccMDhrDgmYOjw/formResponse',
+    question: 'entry.2147061591',
+    name: 'entry.1213908891',
+  };
   const ask = document.getElementById('ask-form');
   if (ask) {
     const msg = document.getElementById('ask-msg');
