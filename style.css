@@ -603,3 +603,29 @@
   .tr-examples button { font-size: 12.5px; padding: 4px 10px; border-color: var(--hair); color: var(--mute); border-radius: 999px; }
   .tr-out { font-size: 19px; line-height: 1.5; }
   .tr-out { white-space: pre-line; }
+
+  /* ---------- 닉네임 · 랭킹 ---------- */
+  .pl-gate { display: flex; gap: 8px; padding: 12px; border: 1px dashed var(--hot); }
+  .pl-gate input {
+    flex: 1; min-width: 0; font: inherit; font-weight: 400; font-size: 15px; color: var(--ink);
+    background: transparent; border: 1px solid var(--rule); padding: 9px 12px;
+  }
+  .pl-gate input:focus { outline: 2px solid var(--hot); outline-offset: -1px; }
+  .pl-who { margin: 0; color: var(--mute); }
+  .pl-who b { color: var(--ink); }
+  .pl-change { font: inherit; color: var(--mute); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0 0 0 6px; }
+  .pl-change:hover { color: var(--hot); }
+  .pbox.locked .cf-menu button, .pbox.locked .wk-acts button { opacity: .35; pointer-events: none; }
+  .rank { border-top: 1px solid var(--hair); padding-top: 12px; }
+  .rank-head { display: flex; justify-content: space-between; color: var(--mute); margin: 0 0 8px; }
+  .rank-me { color: var(--hot); }
+  .rank-list { list-style: none; margin: 0; padding: 0; counter-reset: rk; }
+  .rank-list li { counter-increment: rk; display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; padding: 6px 0; font-weight: 400; font-size: 15px; border-bottom: 1px dashed var(--hair); }
+  .rank-list li::before { content: counter(rk); font-weight: 800; color: var(--mute); }
+  .rank-list li:nth-child(1)::before { content: "🥇"; }
+  .rank-list li:nth-child(2)::before { content: "🥈"; }
+  .rank-list li:nth-child(3)::before { content: "🥉"; }
+  .rank-list li.me { font-weight: 800; color: var(--hot); }
+  .rank-list li b { font-weight: 700; }
+  .rank-list .rank-empty { display: block; color: var(--mute); border: 0; }
+  .rank-list .rank-empty::before { content: none; }

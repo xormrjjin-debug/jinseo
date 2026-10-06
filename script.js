@@ -154,6 +154,99 @@
     .then(r => r.ok ? r.json() : { value: 0 }).then(d => d.value || 0).catch(() => null);
   const pick = a => a[Math.floor(Math.random() * a.length)];
 
+  // ---------- 닉네임 + 랭킹 (구글 폼으로 기록, 구글 시트에서 읽기) ----------
+  // 구글 폼/시트를 연결하면 아래 값을 채웁니다.
+  const RANK = { form: '', game: '', nick: '', count: '', sheet: '' };
+  const rankReady = () => RANK.form && RANK.sheet;
+  let nickname = ''; try { nickname = localStorage.getItem('play-nick') || ''; } catch (e) {}
+  const players = [];
+  let sheetRows = null, sheetAt = 0;
+  const parseCSV = t => {
+    const rows = []; let row = [], cur = '', q = false;
+    for (let i = 0; i < t.length; i++) {
+      const ch = t[i];
+      if (q) { if (ch === '"' && t[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch; }
+      else if (ch === '"') q = true; else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; } else if (ch !== '\r') cur += ch;
+    }
+    if (cur || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  };
+  const loadSheet = (force) => {
+    if (!rankReady()) return Promise.resolve(null);
+    if (!force && sheetRows && Date.now() - sheetAt < 15000) return Promise.resolve(sheetRows);
+    return fetch(`https://docs.google.com/spreadsheets/d/${RANK.sheet}/gviz/tq?tqx=out:csv&t=${Date.now()}`)
+      .then(r => r.text()).then(t => {
+        const rows = parseCSV(t); const h = rows.shift() || [];
+        const gi = h.findIndex(x => /게임/.test(x)), ni = h.findIndex(x => /닉네임/.test(x)), ci = h.findIndex(x => /횟수/.test(x));
+        sheetRows = rows.map(r => ({ g: r[gi], n: (r[ni] || '').trim(), c: parseInt(r[ci], 10) || 0 })).filter(r => r.n);
+        sheetAt = Date.now(); return sheetRows;
+      }).catch(() => null);
+  };
+  const makePlayer = (pfx, game, box) => {
+    const $ = id => document.getElementById(id);
+    const gateEl = $(pfx + '-gate'), who = $(pfx + '-who'), input = gateEl.querySelector('input');
+    let pending = 0, sent = 0, timer = 0;
+    const p = { game, pending: () => pending };
+    const lock = on => { box.classList.toggle('locked', on); gateEl.hidden = !on; who.hidden = on; };
+    const mine = () => {
+      const base = (sheetRows || []).filter(r => r.g === game && r.n === nickname).reduce((a, r) => a + r.c, 0);
+      return Math.max(base, sent) + pending;
+    };
+    const render = () => {
+      who.querySelector('b').textContent = nickname;
+      who.querySelector('.pl-mine').textContent = nickname ? mine() : 0;
+      const list = $(pfx + '-rank'), me = $(pfx + '-me');
+      if (!rankReady()) { list.innerHTML = '<li class="rank-empty">랭킹은 곧 열립니다. 기록은 지금부터 셉니다.</li>'; me.textContent = ''; return; }
+      if (!sheetRows) { list.innerHTML = '<li class="rank-empty">랭킹을 못 불러왔습니다. 잠시 후 다시 봐 주세요.</li>'; return; }
+      const tot = {};
+      sheetRows.filter(r => r.g === game).forEach(r => { tot[r.n] = (tot[r.n] || 0) + r.c; });
+      if (nickname) tot[nickname] = mine();
+      const sorted = Object.entries(tot).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+      if (!sorted.length) { list.innerHTML = '<li class="rank-empty">아직 아무도 없습니다. 1등 자리가 비어 있습니다.</li>'; me.textContent = ''; return; }
+      const esc = t => t.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+      list.innerHTML = sorted.slice(0, 5).map(([n, v]) => `<li class="${n === nickname ? 'me' : ''}"><b>${esc(n)}</b><span>${v.toLocaleString()}번</span></li>`).join('');
+      const pos = sorted.findIndex(([n]) => n === nickname);
+      me.textContent = nickname && pos >= 0 ? `내 순위 ${pos + 1}위` : '';
+    };
+    const flush = keep => {
+      clearTimeout(timer);
+      if (!pending || !rankReady() || !nickname) return;
+      const n = pending; pending = 0; sent += n;
+      const body = new URLSearchParams();
+      body.append(RANK.game, game); body.append(RANK.nick, nickname); body.append(RANK.count, String(n));
+      fetch(RANK.form, { method: 'POST', mode: 'no-cors', body, keepalive: !!keep }).catch(() => { pending += n; sent -= n; });
+    };
+    p.add = () => {
+      pending++; render();
+      clearTimeout(timer); timer = setTimeout(() => flush(), pending >= 20 ? 0 : 2500);
+    };
+    p.flush = flush;
+    p.refresh = force => loadSheet(force).then(() => { sent = 0; render(); });
+    p.render = render;
+    gateEl.querySelector('button').addEventListener('click', () => {
+      const v = input.value.trim().replace(/\s+/g, ' ');
+      if (!v) { input.focus(); input.placeholder = '닉네임을 먼저 적어 주십시오'; return; }
+      flush(); nickname = v.slice(0, 10);
+      try { localStorage.setItem('play-nick', nickname); } catch (e) {}
+      players.forEach(x => x.start());
+    });
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') gateEl.querySelector('button').click(); });
+    who.querySelector('.pl-change').addEventListener('click', () => {
+      players.forEach(x => x.flush());
+      nickname = ''; try { localStorage.removeItem('play-nick'); } catch (e) {}
+      players.forEach(x => x.stop());
+      input.focus();
+    });
+    p.start = () => { lock(false); render(); };
+    p.stop = () => { input.value = ''; lock(true); render(); };
+    nickname ? p.start() : lock(true);
+    players.push(p);
+    return p;
+  };
+  addEventListener('pagehide', () => players.forEach(x => x.flush(true)));
+  setInterval(() => { if (players.length && !document.hidden) loadSheet(true).then(() => players.forEach(x => x.render())); }, 20000);
+
   // 1. 지금 진서는? (A Day 기준)
   const nowText = document.getElementById('now-text');
   if (nowText) {
@@ -408,14 +501,17 @@
       cup.classList.toggle('jitter', pct >= 150);
     };
     const key = k => `cf-${k}-d${day}`;
+    const cfPlayer = makePlayer('cf', '카페인', cfBox);
+    cfPlayer.refresh();
     Promise.all(Object.keys(counts).map(k => shared('get', key(k)).then(n => { counts[k] = n || 0; }))).then(draw);
     draw();
     cfBox.querySelectorAll('.cf-menu button').forEach(b => b.addEventListener('click', () => {
+      if (!nickname) return;
       const k = b.dataset.drink;
       cfBox.querySelectorAll('.cf-menu button').forEach(x => { x.disabled = true; });
       shared('hit', key(k)).then(n => {
         if (n === null) $('cf-msg').textContent = '지금은 커피를 못 받습니다. 잠시 후에 다시 주세요.';
-        else { counts[k] = n; draw(); $('cf-msg').textContent = pick(drinks[k].say); }
+        else { counts[k] = n; draw(); $('cf-msg').textContent = pick(drinks[k].say); cfPlayer.add(); }
         setTimeout(() => cfBox.querySelectorAll('.cf-menu button').forEach(x => { x.disabled = false; }), 300);
       });
     }));
@@ -442,6 +538,8 @@
       shake: '일어났습니다. 기분은 별로입니다.',
     };
     let depth, tries, t0, idx, done;
+    const wkPlayer = makePlayer('wk', '깨우기', wkBox);
+    wkPlayer.refresh();
     let best = null; try { best = JSON.parse(localStorage.getItem('wake-best')); } catch (e) {}
     const showBest = () => { $('wk-best').textContent = best ? `최고 기록 ${best.tries}번 · ${best.sec}초` : '최고 기록 -'; };
     const face = () => depth > 110 ? '😪💤' : depth > 80 ? '😴' : depth > 55 ? '😪' : depth > 30 ? '🥱' : '😑';
@@ -465,7 +563,8 @@
       draw();
     };
     wkBox.querySelectorAll('.wk-acts button').forEach(b => b.addEventListener('click', () => {
-      if (done) return;
+      if (done || !nickname) return;
+      wkPlayer.add();
       if (!t0) t0 = Date.now();
       const k = b.dataset.act, a = acts[k];
       tries++;
@@ -515,27 +614,42 @@
       ['했어', '했습니다'], ['었어', '었습니다'], ['았어', '았습니다'], ['겠어', '겠습니다'], ['싶어', '싶습니다'], ['없어', '없습니다'], ['있어', '있습니다'],
       ['같아', '같습니다'], ['거야', '겁니다'], ['이야', '입니다'], ['예요', '입니다'], ['이에요', '입니다'], ['해요', '합니다'], ['해', '합니다'], ['야', '입니다'],
     ];
-    const qEnds = [['뭐해', '뭐 하십니까'], ['뭐 해', '뭐 하십니까'], ['어디야', '어디십니까'], ['했어', '했습니까'], ['었어', '었습니까'], ['았어', '았습니까'], ['있어', '있습니까'], ['없어', '없습니까'], ['해', '합니까'], ['야', '입니까'], ['이야', '입니까']];
+    const qEnds = [['줄까', '드릴까요'], ['할까', '할까요'], ['갈까', '갈까요'], ['먹을까', '먹을까요'], ['뭐해', '뭐 하십니까'], ['뭐 해', '뭐 하십니까'], ['어디야', '어디십니까'], ['했어', '했습니까'], ['었어', '었습니까'], ['았어', '았습니까'], ['있어', '있습니까'], ['없어', '없습니까'], ['해', '합니까'], ['야', '입니까'], ['이야', '입니까']];
     const topics = [
-      [/배고|밥|먹|치킨|피자|라면|점심|저녁/, ['먹던 거 먹을 예정입니다.', '메뉴 고민은 길고 결론은 늘 비슷합니다.', '천천히 먹겠습니다.']],
-      [/졸|잠|자고|피곤|잘자/, ['많이 자면 12시간도 잡니다.', '알람은 다섯 개 맞추겠습니다.', '자면 회복됩니다. 확실합니다.']],
-      [/커피|카페|아메리카노|라떼/, ['효과는 미미합니다.', '사실 다들 압니다.', '몇 번째인지는 세지 않습니다.']],
-      [/과제|시험|공부|팀플|발표|레포트/, ['내일 해도 되는 일입니다. 알면서도 합니다.', '대체로 버팁니다.', '그래도 끝은 납니다. 아마도요.']],
-      [/월요일|출근|등교|학교|수업/, ['버티는 중입니다. 대체로 버팁니다.', '하루는 대체로 비슷하게 흘러갑니다.']],
-      [/사랑|보고 ?싶|좋아해|고마/, ['티는 안 내지만 좋아합니다.', '겉으로는 "아 그래?" 하고 넘어갑니다. 속으로는 몇 번 곱씹습니다.']],
-      [/짜증|화나|싫|미워/, ['한 번은 웃으면서 말하고, 두 번째부터는 안 웃습니다.', '티가 납니다. 숨기려고 해 봤는데 잘 안 됐습니다.']],
-      [/여행|놀|바다|비행기|휴가/, ['여행 얘기가 나오면 좀 길어집니다. 미리 사과드립니다.', '바다 쪽으로 가겠습니다.']],
-      [/술|소주|맥주|한잔|취/, ['3병까지는 괜찮습니다. 알아서 믿으십쇼.', '취하면 집에 갑니다. 집 주소는 안 까먹습니다.']],
-      [/추워|더워|날씨|비|눈/, ['봄, 가을만은 못합니다.', '여름보다는 겨울이 낫습니다.']],
-      [/전화|문자|카톡|연락/, ['전화도 문자도 싫습니다. 그래도 답장은 빠릅니다.']],
-      [/강아지|고양이|댕댕|냥/, ['둘 다 무섭습니다. 귀여운 건 압니다.']],
-      [/로또|돈|부자|월급/, ['적당히 벌고 재밌게 살 예정입니다.', '일단 아무한테도 말 안 하겠습니다.']],
+      [/배고|밥|먹|치킨|피자|라면|점심|저녁|아침|간식/, ['메뉴는 이미 정해져 있습니다. 먹던 거입니다.', '모험은 하지 않습니다. 먹던 거 먹겠습니다.',
+        '천천히 먹을 예정이니 먼저 일어나지 마십시오.', '메뉴 고민은 길었지만 결론은 늘 그거입니다.']],
+      [/졸|잠|자고|피곤|잘자|눕/, ['12시간 예약했습니다.', '알람은 다섯 개 맞추겠습니다. 첫 번째는 장식입니다.',
+        '자고 일어나면 해결돼 있을 겁니다. 문제는 그대로겠지만요.', '눕는 순간 끝입니다. 잠 안 오는 날은 없습니다.']],
+      [/커피|카페|아메리카노|라떼|카페인/, ['몇 번째 잔인지는 묻지 마십시오.', '효과는 미미하지만 의식은 중요합니다.',
+        '아이스로 부탁드립니다. 겨울에도요.', '사실 이미 한 잔 마셨습니다.']],
+      [/과제|시험|공부|팀플|발표|레포트|마감/, ['마감은 내일의 제가 하겠습니다.', '시작이 반이라는데 아직 시작을 안 했습니다.',
+        '끝은 납니다. 끝이 좋을지는 모르겠습니다.', '내일 해도 되는 일입니다. 알면서도 오늘 합니다.']],
+      [/월요일|출근|등교|학교|수업|알바/, ['월요일은 매주 옵니다. 그래서 더 싫습니다.', '버티는 중입니다. 벌꿀오소리처럼 버팁니다.',
+        '하루는 대체로 비슷하게 흘러갑니다. 오늘도 그렇습니다.']],
+      [/사랑|보고 ?싶|좋아해|고마|설레/, ['티는 안 내지만 좋아합니다. 방금 낸 건 실수입니다.', '속으로 세 번 곱씹었습니다.',
+        '겉으로는 "아 그래?" 하고 넘어가겠습니다.']],
+      [/짜증|화나|싫|미워|열받/, ['한 번은 웃으면서 말합니다. 이건 두 번째입니다.', '티가 납니다. 숨기는 기능은 없습니다.',
+        '정색까지 3초 남았습니다.']],
+      [/여행|놀|바다|비행기|휴가|떠나/, ['다음 여행지는 이미 검색해 놨습니다.', '비행기표 가격만 확인하는 중입니다.',
+        '산 말고 바다로 가겠습니다.', '여행 얘기가 나오면 좀 길어집니다. 미리 사과드립니다.']],
+      [/술|소주|맥주|한잔|취|회식/, ['3병까지는 괜찮습니다. 알아서 믿으십쇼.', '취하면 집에 갑니다. 집 주소는 안 까먹습니다.',
+        '주량은 비밀이 아닙니다. 믿음의 문제입니다.']],
+      [/추워|더워|날씨|비 |비가|눈 |눈이|장마/, ['날씨 탓을 하겠습니다. 날씨는 반박을 못 합니다.', '봄, 가을만은 못합니다.', '여름보다는 겨울이 낫습니다.']],
+      [/전화|문자|카톡|연락|답장/, ['전화도 문자도 싫습니다. 그래도 답장은 빠릅니다.', '읽고 안 읽은 척은 안 합니다. 진짜 바쁜 겁니다.']],
+      [/강아지|고양이|댕댕|냥|동물/, ['둘 다 무섭습니다. 귀여운 건 압니다.', '멀리서 보면 귀엽습니다. 멀리서요.']],
+      [/로또|돈|부자|월급|용돈/, ['일단 아무한테도 말 안 하겠습니다.', '적당히 버는 단계는 건너뛰겠습니다.']],
+      [/운동|헬스|테니스|다이어트|살/, ['테니스를 배울 예정입니다. 장비는 아직 안 샀습니다.', '먹던 거 먹으면서 하겠습니다.', '마음은 이미 세 세트 했습니다.']],
+      [/괴롭|놀리|장난/, ['괴롭힘을 당하고 있다면 친해졌다는 뜻입니다.', '친한 사람한테만 합니다. 축하드립니다.']],
+      [/생일|선물|기프티콘/, ['커피 기프티콘이면 충분합니다. 아이스로요.', '선물은 마음입니다. 마음은 아이스 아메리카노 모양입니다.']],
+      [/집|방콕|이불/, ['집도 좋지만 저는 밖파입니다.', '이불 밖은 위험하다고들 합니다. 저는 나가겠습니다.']],
+      [/벌꿀오소리|오소리/, ['저를 부르셨습니까.', '성격이 비슷해서 생긴 별명입니다. 이해가 빠르시네요.']],
     ];
-    const tails = ['대체로 그렇습니다.', '이유는 딱히 없습니다.', '알아서 믿으십쇼.', '본인은 괜찮다고 합니다.', '미리 사과드립니다.',
-      '사실 다들 압니다.', '아마도요.', '효과는 미미합니다.', '개인차 있습니다.', '나름의 시스템입니다.', '그 이상도 이하도 아닙니다.',
-      '더 묻지 않으셔도 됩니다.', '생각보다 진지합니다.', '여기까지 들으셨으면 꽤 친해진 겁니다.', '대체로 괜찮습니다.'];
-    const official = [['[공식 입장] ', ' 추가 질문은 받지 않습니다.'], ['[속보] ', ' 자세한 내용은 들어가 보셔야 압니다.'],
-      ['[안내 말씀] ', ' 이용에 참고 바랍니다.'], ['[보도자료] ', ' 본 내용은 사실과 다를 수 있습니다.']];
+    const tails = ['대체로 그렇습니다.', '이유는 딱히 없습니다.', '알아서 믿으십쇼.', '본인은 괜찮다고 합니다. 대체로 안 괜찮습니다.',
+      '미리 사과드립니다.', '사실 다들 압니다.', '아마도요.', '더 할 말은 있지만 아끼겠습니다.', '반박은 받지 않습니다. 사실 받긴 받습니다.',
+      '적고 보니 별일 아닙니다.', '본인도 방금 알았습니다.', '이상입니다. 질문은 Ask로 받습니다.', '이 문장은 대체로 진심입니다.',
+      '12시간 자고 다시 생각해 보겠습니다.', '벌꿀오소리도 동의했습니다.', '커피 한 잔이면 해결됩니다. 효과는 미미하지만요.',
+      '그 이상도 이하도 아닙니다.', '여기까지 들으셨으면 꽤 친해진 겁니다.', '대체로 괜찮은 사람이 한 말입니다.'];
+    const flatEnds = ['그렇습니다.', '네.', '이상.', '끝.', '그뿐입니다.', '…'];
     let mode = 'basic', last = '', lastOut = '';
 
     const formal = raw => {
@@ -549,6 +663,7 @@
       if (!ok && /[어아]$/.test(s) && jong(s[s.length - 2]) === 20) {          // 잤어 → 잤습니다
         s = s.slice(0, -1) + (f.q ? '습니까' : '습니다'); ok = true;
       }
+      if (!ok && f.q && /까$/.test(s)) { s += '요'; ok = true; }                // 볼까 → 볼까요
       if (!ok && /대$/.test(s)) { s = s.slice(0, -1) + '답니다'; ok = true; }   // 비 온대 → 비 온답니다
       if (!ok && /다$/.test(s) && s.length > 1) {                                // 웃기다 → 웃깁니다, 좋다 → 좋습니다
         ok = true;
@@ -569,10 +684,8 @@
       let tail = f.laugh ? pick(['웃기긴 합니다.', '웃었습니다. 티는 안 냈습니다.']) : f.cry ? pick(['조금 슬프긴 합니다.', '울진 않았습니다. 거의요.'])
         : f.angry ? '정색한 겁니다. 진지합니다.' : topic && Math.random() < .75 ? pick(topic[1]) : pick(tails);
       let body = ok ? s + (f.q ? '?' : '.') : s + ', 라고 합니다.';
-      if (mode === 'flat') return body.replace(/[!]/g, '.') + ' 그렇습니다.';
-      if (mode === 'official') { const [p, q] = pick(official); return p + body + q; }
-      if (mode === 'footnote') return body.replace(/([.?])$/, '*$1') + ' ' + tail + '\n* 개인차 있음. 자세한 건 아래에.';
-      return body + ' ' + tail + (f.bang ? ' 나름 신났습니다.' : '');
+      if (mode === 'flat') return body.replace(/[!]/g, '.') + ' ' + pick(flatEnds);
+      return body + ' ' + tail + (f.bang ? pick([' 나름 신났습니다.', ' 느낌표는 제가 붙인 게 아닙니다.', ' 오랜만에 목소리가 커졌습니다.']) : '');
     };
     const run = () => {
       const v = $('tr-in').value;
