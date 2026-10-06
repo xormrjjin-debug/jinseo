@@ -543,3 +543,63 @@
   }
   .bd-reset:hover { color: var(--hot); }
   @media (prefers-reduced-motion: reduce) { .bd-stage *, .bd-stage { animation: none !important; } }
+
+  /* ---------- 벌꿀오소리 SVG 캐릭터 ---------- */
+  .bd-pet svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .bd-stage[data-form="0"] { height: 200px; }
+  .bd-stage[data-form="1"] { height: 210px; }
+  .bd-stage[data-form="2"] { height: 240px; }
+  .bd-stage[data-form="3"] { height: 290px; }
+  .bd-stage[data-form="2"] .bd-pet { animation: bd-shake .25s linear infinite; }
+  @keyframes bd-shake { 25% { transform: translate(-1px, 1px); } 75% { transform: translate(1px, -1px); } }
+
+  /* ---------- 카페인 ---------- */
+  .cf-top { display: flex; align-items: center; gap: 18px; }
+  .cf-cup { width: 110px; flex-shrink: 0; color: var(--ink); overflow: visible; }
+  .cf-cup #cf-liquid, .cf-cup #cf-crema { transition: y .6s, height .6s; }
+  .cf-steam path { fill: none; stroke: var(--mute); stroke-width: 2.5; stroke-linecap: round; opacity: 0; }
+  .cf-cup.warm .cf-steam path { animation: cf-steam 2.4s ease-in-out infinite; }
+  .cf-cup.warm .cf-steam path:nth-child(2) { animation-delay: .5s; }
+  .cf-cup.warm .cf-steam path:nth-child(3) { animation-delay: 1s; }
+  .cf-over { opacity: 0; transition: opacity .4s; }
+  .cf-cup.full .cf-over { opacity: 1; }
+  .cf-cup.jitter { animation: bd-shake .12s linear infinite; }
+  @keyframes cf-steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: .8; } 100% { opacity: 0; transform: translateY(-10px); } }
+  .cf-top .cf-pct { font-size: 52px; }
+  .cf-state { margin: 6px 0 0; font-size: 16px; line-height: 1.5; }
+  .cf-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .cf-menu button, .wk-acts button, .tr-modes button, .tr-examples button {
+    font: inherit; font-size: 14px; color: var(--ink); background: none; cursor: pointer;
+    border: 1px solid var(--rule); padding: 9px 10px; transition: background .15s, color .15s, transform .1s;
+  }
+  .cf-menu button { display: flex; justify-content: space-between; align-items: baseline; }
+  .cf-menu button small { color: var(--hot); font-size: 12px; }
+  .cf-menu button:hover, .wk-acts button:hover, .tr-modes button:hover, .tr-examples button:hover { background: var(--ink); color: var(--bg); }
+  .cf-menu button:active, .wk-acts button:active { transform: scale(.96); }
+  .cf-menu button:disabled, .wk-acts button:disabled { opacity: .4; cursor: default; background: none; color: var(--ink); }
+
+  /* ---------- 깨우기 ---------- */
+  .wk-stage { position: relative; height: 120px; display: grid; place-items: center; background: #1d2333; overflow: hidden; transition: background .6s; }
+  .wk-stage[data-state="awake"] { background: #ffe9a8; }
+  .wk-stage[data-state="deep"] { background: #0c0f18; }
+  .wk-face { font-size: 64px; line-height: 1; transition: transform .2s; }
+  .wk-face.hit { transform: rotate(-12deg) scale(1.08); }
+  .wk-z { position: absolute; color: #c8d0ff; font-weight: 800; opacity: 0; animation: wk-z 3s ease-in-out infinite; }
+  .wk-z.z1 { left: 58%; top: 40%; font-size: 14px; }
+  .wk-z.z2 { left: 63%; top: 30%; font-size: 18px; animation-delay: 1s; }
+  .wk-z.z3 { left: 68%; top: 18%; font-size: 24px; animation-delay: 2s; }
+  .wk-stage[data-state="awake"] .wk-z { display: none; }
+  @keyframes wk-z { 0% { opacity: 0; transform: translate(0, 8px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(14px, -18px); } }
+  .wk-meter { height: 8px; background: var(--hair); position: relative; }
+  .wk-meter span { position: absolute; inset: 0 auto 0 0; width: 100%; background: #4b5bd6; transition: width .35s; }
+  .wk-depth { margin: -4px 0 0; color: var(--mute); }
+  .wk-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wk-text { font-size: 17px; min-height: 3em; }
+
+  /* ---------- 번역기 ---------- */
+  .tr-modes, .tr-examples { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tr-modes button { font-size: 13px; padding: 6px 12px; border-radius: 999px; }
+  .tr-modes button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .tr-examples button { font-size: 12.5px; padding: 4px 10px; border-color: var(--hair); color: var(--mute); border-radius: 999px; }
+  .tr-out { font-size: 19px; line-height: 1.5; }
+  .tr-out { white-space: pre-line; }

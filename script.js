@@ -185,15 +185,115 @@
   if (bdBtn) {
     const KEY = 'honeybadger';
     const ADMIN = '22e196eb-5d67-445f-8622-add243a7de51';   // 초기화용 키
-    const forms = [
-      { at: 0,   name: '아기오소리',      size: 64,  a: '',   b: '' },
-      { at: 25,  name: '벌꿀오소리',      size: 92,  a: '🍯', b: '' },
-      { at: 70,  name: '사나운꿀오소리',  size: 120, a: '⚡', b: '⚡' },
-      { at: 200, name: '메가 벌꿀오소리', size: 150, a: '🔥', b: '🔥' },
+    const D = '#24211f', S = '#e9e5dc', H = '#f2b134', HD = '#c97f12';
+    const art = [
+      // 0. 아기오소리 — 동글동글 앉아 있는 새끼
+      `<svg viewBox="0 0 200 200">
+        <ellipse cx="100" cy="190" rx="52" ry="7" fill="rgba(0,0,0,.12)"/>
+        <ellipse cx="100" cy="144" rx="52" ry="44" fill="${D}"/>
+        <ellipse cx="100" cy="152" rx="30" ry="26" fill="#3a3532"/>
+        <ellipse cx="74" cy="184" rx="16" ry="8" fill="${D}"/><ellipse cx="126" cy="184" rx="16" ry="8" fill="${D}"/>
+        <circle cx="62" cy="50" r="13" fill="${D}"/><circle cx="138" cy="50" r="13" fill="${D}"/>
+        <circle cx="62" cy="50" r="6" fill="#ff9aa8"/><circle cx="138" cy="50" r="6" fill="#ff9aa8"/>
+        <circle cx="100" cy="86" r="48" fill="${D}"/>
+        <path d="M56 76 Q100 20 144 76 Q124 58 100 58 Q76 58 56 76Z" fill="${S}"/>
+        <circle cx="81" cy="90" r="11" fill="#fff"/><circle cx="82" cy="91" r="8" fill="#111"/><circle cx="85" cy="87" r="3" fill="#fff"/>
+        <circle cx="119" cy="90" r="11" fill="#fff"/><circle cx="118" cy="91" r="8" fill="#111"/><circle cx="121" cy="87" r="3" fill="#fff"/>
+        <ellipse cx="66" cy="108" rx="9" ry="5" fill="#ff9aa8" opacity=".75"/><ellipse cx="134" cy="108" rx="9" ry="5" fill="#ff9aa8" opacity=".75"/>
+        <ellipse cx="100" cy="104" rx="6" ry="4" fill="#111"/>
+        <path d="M91 111 Q95.5 116 100 111 Q104.5 116 109 111" stroke="${S}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M100 126 q-9 13 0 20 q9 -7 0 -20Z" fill="${H}"/>
+        <ellipse cx="88" cy="140" rx="9" ry="7" fill="${D}"/><ellipse cx="112" cy="140" rx="9" ry="7" fill="${D}"/>
+      </svg>`,
+      // 1. 벌꿀오소리 — 네 발로 걷는 진짜 벌꿀오소리 + 꿀단지
+      `<svg viewBox="0 0 200 200">
+        <ellipse cx="105" cy="176" rx="82" ry="7" fill="rgba(0,0,0,.12)"/>
+        <path d="M166 112 Q192 104 188 130" stroke="${D}" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <rect x="52" y="126" width="18" height="46" rx="7" fill="${D}"/><rect x="74" y="128" width="18" height="44" rx="7" fill="${D}"/>
+        <rect x="130" y="128" width="18" height="44" rx="7" fill="${D}"/><rect x="152" y="126" width="18" height="46" rx="7" fill="${D}"/>
+        <path d="M52 172 l3 5 M58 172 l2 6 M64 172 l2 5 M152 172 l3 5 M158 172 l2 6 M164 172 l2 5" stroke="${S}" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M40 112 Q40 78 90 76 L150 78 Q180 82 178 114 Q176 144 140 144 L70 144 Q40 142 40 112Z" fill="${D}"/>
+        <path d="M60 102 Q62 86 44 84 Q20 84 12 106 Q8 120 22 124 L50 124 Q64 118 60 102Z" fill="${D}"/>
+        <path d="M26 94 Q46 68 92 70 L150 72 Q176 76 180 106 Q162 92 140 94 L86 96 Q56 96 32 106Z" fill="${S}"/>
+        <circle cx="50" cy="86" r="7" fill="${D}"/>
+        <circle cx="34" cy="102" r="4.5" fill="#fff"/><circle cx="33" cy="102" r="2.8" fill="#111"/>
+        <circle cx="12" cy="110" r="4.5" fill="#111"/>
+        <path d="M16 118 Q24 123 31 118" stroke="${S}" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M15 122 q-3 12 2 15 q4 -4 -2 -15Z" fill="${H}"/>
+        <path d="M2 156 Q2 136 20 136 Q38 136 38 156 Q38 176 20 176 Q2 176 2 156Z" fill="${HD}"/>
+        <rect x="6" y="129" width="28" height="9" rx="3" fill="${H}"/>
+        <path d="M8 138 q4 11 8 0 q4 15 9 0 q4 9 7 0Z" fill="${H}"/>
+        <text x="20" y="162" text-anchor="middle" font-size="9" font-weight="800" fill="#fff4d0">HONEY</text>
+      </svg>`,
+      // 2. 사나운꿀오소리 — 일어서서 발톱 세우고 포효
+      `<svg viewBox="0 0 200 200">
+        <ellipse cx="100" cy="192" rx="56" ry="7" fill="rgba(0,0,0,.14)"/>
+        <path d="M70 158 L62 188 L88 188 L90 158Z" fill="${D}"/><path d="M130 158 L138 188 L112 188 L110 158Z" fill="${D}"/>
+        <path d="M64 188 l-4 5 M72 188 l-2 6 M80 188 l0 6 M136 188 l4 5 M128 188 l2 6 M120 188 l0 6" stroke="${S}" stroke-width="3" stroke-linecap="round"/>
+        <path d="M60 112 Q32 96 28 60" stroke="${D}" stroke-width="19" fill="none" stroke-linecap="round"/>
+        <path d="M140 112 Q168 96 172 60" stroke="${D}" stroke-width="19" fill="none" stroke-linecap="round"/>
+        <path d="M18 56 q-5 -11 2 -18 M27 50 q-3 -13 4 -18 M36 54 q1 -12 9 -15" stroke="${S}" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M182 56 q5 -11 -2 -18 M173 50 q3 -13 -4 -18 M164 54 q-1 -12 -9 -15" stroke="${S}" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="100" cy="128" rx="47" ry="49" fill="${D}"/>
+        <path d="M54 102 L60 84 L69 97 L77 79 L86 95 L94 76 L100 92 L106 76 L114 95 L123 79 L131 97 L140 84 L146 102 Q100 90 54 102Z" fill="${S}"/>
+        <circle cx="72" cy="38" r="9" fill="${D}"/><circle cx="128" cy="38" r="9" fill="${D}"/>
+        <circle cx="100" cy="66" r="35" fill="${D}"/>
+        <path d="M65 60 Q100 12 135 60 Q118 45 100 45 Q82 45 65 60Z" fill="${S}"/>
+        <circle cx="87" cy="73" r="10" fill="#ff3b2f" opacity=".25"/><circle cx="113" cy="73" r="10" fill="#ff3b2f" opacity=".25"/>
+        <circle cx="87" cy="73" r="5" fill="#ff3b2f"/><circle cx="113" cy="73" r="5" fill="#ff3b2f"/>
+        <path d="M74 60 L95 69" stroke="${S}" stroke-width="6" stroke-linecap="round"/><path d="M126 60 L105 69" stroke="${S}" stroke-width="6" stroke-linecap="round"/>
+        <path d="M118 56 L127 84" stroke="#ff9aa8" stroke-width="3" stroke-linecap="round"/>
+        <path d="M118 66 l8 -2 M120 74 l8 -2" stroke="#ff9aa8" stroke-width="2.5" stroke-linecap="round"/>
+        <ellipse cx="100" cy="81" rx="6" ry="4" fill="#111"/>
+        <path d="M84 88 Q100 114 116 88Z" fill="#7a1010"/>
+        <path d="M85 88 L89 95 L93 88 L97 95 L100 88 L103 95 L107 88 L111 95 L115 88Z" fill="#fff"/>
+        <text x="146" y="40" font-size="28">💢</text>
+      </svg>`,
+      // 3. 메가 벌꿀오소리 — 황금 갑옷, 망토, 왕관, 빛나는 눈
+      `<svg viewBox="0 0 200 200">
+        <defs>
+          <linearGradient id="mg-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3a6"/><stop offset=".5" stop-color="#f5c542"/><stop offset="1" stop-color="#b8761a"/></linearGradient>
+          <linearGradient id="mg-cape" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8413f"/><stop offset="1" stop-color="#6e0d1a"/></linearGradient>
+          <filter id="mg-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path d="M58 92 Q30 150 22 196 L178 196 Q170 150 142 92Z" fill="url(#mg-cape)"/>
+        <path d="M72 158 L66 186 L92 186 L92 158Z" fill="${D}"/><path d="M128 158 L134 186 L108 186 L108 158Z" fill="${D}"/>
+        <rect x="62" y="178" width="34" height="14" rx="5" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="1.5"/>
+        <rect x="104" y="178" width="34" height="14" rx="5" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="1.5"/>
+        <path d="M56 112 Q42 138 50 158" stroke="${D}" stroke-width="17" stroke-linecap="round" fill="none"/>
+        <path d="M144 112 Q158 138 150 158" stroke="${D}" stroke-width="17" stroke-linecap="round" fill="none"/>
+        <circle cx="50" cy="160" r="11" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="1.5"/>
+        <circle cx="150" cy="160" r="11" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="1.5"/>
+        <ellipse cx="100" cy="130" rx="45" ry="47" fill="${D}"/>
+        <path d="M64 108 Q100 94 136 108 L130 150 Q100 168 70 150Z" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="2"/>
+        <path d="M100 116 L112 130 L100 146 L88 130Z" fill="#ff8a00" stroke="#fff3a6" stroke-width="2" filter="url(#mg-glow)"/>
+        <ellipse cx="58" cy="104" rx="20" ry="13" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="2"/>
+        <ellipse cx="142" cy="104" rx="20" ry="13" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="2"/>
+        <circle cx="72" cy="40" r="9" fill="${D}"/><circle cx="128" cy="40" r="9" fill="${D}"/>
+        <circle cx="100" cy="68" r="33" fill="${D}"/>
+        <path d="M67 62 Q100 18 133 62 Q118 48 100 48 Q82 48 67 62Z" fill="url(#mg-gold)"/>
+        <path d="M74 36 L80 12 L91 28 L100 4 L109 28 L120 12 L126 36Z" fill="url(#mg-gold)" stroke="#8a5a10" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="100" cy="22" r="4" fill="#e8413f"/><circle cx="84" cy="27" r="2.5" fill="#4fc3f7"/><circle cx="116" cy="27" r="2.5" fill="#4fc3f7"/>
+        <path d="M78 64 L95 70 M122 64 L105 70" stroke="#f5c542" stroke-width="5" stroke-linecap="round"/>
+        <g filter="url(#mg-glow)"><ellipse cx="88" cy="75" rx="7" ry="5" fill="#fff6b0"/><ellipse cx="112" cy="75" rx="7" ry="5" fill="#fff6b0"/></g>
+        <ellipse cx="100" cy="84" rx="6" ry="4" fill="#111"/>
+        <path d="M90 92 Q100 98 112 89" stroke="${S}" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>`,
     ];
-    const moods = ['배고픔', '예민함', '사나움', '만족함', '졸림'];
-    const lines = ['먹었습니다. 고맙다는 말은 안 합니다.', '먹었습니다. 더 달라는 눈빛입니다.', '꿀만 골라 먹었습니다.',
-      '먹다가 물 뻔했습니다. 친해졌다는 뜻입니다.', '먹고 바로 잡니다.', '먹었습니다. 대체로 괜찮은 맛이었습니다.'];
+    const forms = [
+      { at: 0,   name: '아기오소리',      w: 120, a: '',   b: '' },
+      { at: 25,  name: '벌꿀오소리',      w: 190, a: '',   b: '' },
+      { at: 70,  name: '사나운꿀오소리',  w: 190, a: '⚡', b: '⚡' },
+      { at: 200, name: '메가 벌꿀오소리', w: 240, a: '🔥', b: '🔥' },
+    ];
+    const moods = [['배고픔', '졸림', '해맑음', '꿀 찾는 중', '낮잠'], ['배고픔', '예민함', '만족함', '꿀 찾는 중', '졸림'],
+      ['사나움', '매우 사나움', '포효 중', '예민함', '배고픔'], ['전설']];
+    const lines = [
+      ['먹었습니다. 아직 아기라 흘렸습니다.', '먹고 바로 잡니다.', '꿀 한 방울에 신났습니다.'],
+      ['먹었습니다. 고맙다는 말은 안 합니다.', '꿀만 골라 먹었습니다.', '먹었습니다. 더 달라는 눈빛입니다.'],
+      ['먹다가 물 뻔했습니다. 친해졌다는 뜻입니다.', '먹고 포효합니다. 맛있다는 뜻입니다.', '그릇까지 먹을 기세입니다.'],
+      ['메가 벌꿀오소리가 식사를 하사했습니다.', '먹었습니다. 왕관이 조금 더 빛납니다.', '전설은 배가 고프지 않습니다. 그래도 먹습니다.'],
+    ];
     const $ = id => document.getElementById(id);
     const stage = $('bd-stage'), pet = $('bd-pet'), msg = $('bd-msg');
     const formOf = n => forms.reduce((f, x, i) => (n >= x.at ? i : f), 0);
@@ -201,13 +301,14 @@
 
     const draw = n => {
       const fi = formOf(n), f = forms[fi], next = forms[fi + 1];
+      if (shown !== fi) pet.innerHTML = art[fi];
       stage.dataset.form = fi;
-      pet.style.fontSize = f.size + 'px';
+      pet.style.width = f.w + 'px';
       $('bd-acc-a').textContent = f.a; $('bd-acc-b').textContent = f.b;
       $('bd-form-name').textContent = f.name;
       $('bd-count').textContent = n.toLocaleString();
       $('bd-lv').textContent = Math.floor(Math.sqrt(n / 2)) + 1;
-      $('bd-mood').textContent = fi === 3 ? '전설' : moods[n % moods.length];
+      $('bd-mood').textContent = moods[fi][n % moods[fi].length];
       if (next) {
         $('bd-next-fill').style.width = ((n - f.at) / (next.at - f.at) * 100) + '%';
         $('bd-next-txt').textContent = `다음 진화까지 밥 ${next.at - n}번 → ${next.name}`;
@@ -238,7 +339,8 @@
     const api = (op, opts) => fetch(`https://abacus.jasoncameron.dev/${op}/xormrjjin-debug-jinseo-v2/${KEY}`, opts)
       .then(r => r.ok ? r.json() : { value: 0 }).then(d => d.value || 0).catch(() => null);
 
-    api('get').then(n => { if (n === null) { $('bd-count').textContent = '-'; return; } draw(n); });
+    draw(0);
+    api('get').then(n => { if (n !== null) draw(n); });
 
     bdBtn.addEventListener('click', () => {
       if (busy) return;
@@ -247,10 +349,10 @@
         if (n === null) { msg.textContent = '지금은 밥을 못 받습니다. 잠시 후에 다시 주세요.'; bdBtn.disabled = false; return; }
         const before = shown;
         pet.classList.add('bump'); setTimeout(() => pet.classList.remove('bump'), 160);
-        if (before !== -1 && formOf(n) > before) {
+        if (formOf(n) > before) {
           evolve(n).then(() => { bdBtn.disabled = false; });
         } else {
-          draw(n); msg.textContent = pick(lines);
+          draw(n); msg.textContent = pick(lines[formOf(n)]);
           setTimeout(() => { bdBtn.disabled = false; }, 300);
         }
       });
@@ -267,102 +369,225 @@
     });
   }
 
-  // 5. 카페인 충전 게이지 (매일 0%에서 시작)
-  const cfBtn = document.getElementById('cf-btn');
-  if (cfBtn) {
-    const key = 'coffee-d' + new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' }).replace(/-/g, '');
-    const render = (n, clicked) => {
-      if (n === null) { document.getElementById('cf-pct').textContent = '-'; return; }
-      const pct = n * 5;
-      document.getElementById('cf-pct').textContent = pct;
-      document.getElementById('cf-fill').style.width = Math.min(pct, 100) + '%';
-      const msg = pct >= 150 ? '과충전 상태입니다. 그래도 주시면 마십니다.'
-        : pct >= 100 ? '오늘은 충분합니다. 내일 다시 비워집니다.'
-        : pct >= 50 ? '절반 넘었습니다. 말이 조금 많아지기 시작합니다.'
-        : clicked ? '한 모금 마셨습니다. 효과는 미미합니다.'
-        : '한 번 누를 때마다 한 모금씩 채워집니다. 매일 밤 비워집니다.';
-      document.getElementById('cf-msg').textContent = msg;
+  // 3. 진서 카페인 충전 (모두가 같이, 매일 0%)
+  const cfBox = document.getElementById('coffee');
+  if (cfBox) {
+    const day = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' }).replace(/-/g, '');
+    const drinks = {
+      americano: { pct: 5, name: '아메리카노', say: ['아메리카노입니다. 기본입니다.', '한 잔 더 마셨습니다. 몇 번째인지는 세지 않습니다.', '아이스입니다. 겨울에도 아이스입니다.'] },
+      shot: { pct: 10, name: '샷 추가', say: ['샷 추가입니다. 눈이 조금 커졌습니다.', '샷이 들어가니 말이 빨라집니다.', '투샷입니다. 심장이 대답합니다.'] },
+      latte: { pct: 4, name: '바닐라라떼', say: ['바닐라라떼입니다. 달아서 기분이 좋아졌습니다.', '라떼입니다. 오늘은 봐줍니다.', '단 걸 먹으니 말투가 0.5% 부드러워졌습니다.'] },
+      decaf: { pct: 0, name: '디카페인', say: ['디카페인입니다. 의미는 없지만 마십니다.', '디카페인입니다. 마음만 받겠습니다.', '디카페인입니다. 이건 그냥 물입니다.'] },
     };
-    shared('get', key).then(n => render(n, false));
-    cfBtn.addEventListener('click', () => {
-      cfBtn.disabled = true;
-      shared('hit', key).then(n => { render(n, true); setTimeout(() => { cfBtn.disabled = false; }, 400); });
-    });
+    const tiers = [
+      [0, '😴 아직 부팅 중입니다. 말 걸지 마십시오.'],
+      [1, '😪 눈은 떴습니다. 대답은 아직입니다.'],
+      [30, '🙂 대화 가능합니다. 단답 위주입니다.'],
+      [60, '😀 말이 많아지기 시작합니다. TMI 주의.'],
+      [100, '🤩 완충입니다. 오늘은 충분합니다. 그래도 주시면 마십니다.'],
+      [150, '⚡ 손이 떨립니다. 타자 속도가 빨라졌습니다.'],
+      [200, '🫨 과충전입니다. 오늘 밤 12시간은 못 잡니다.'],
+      [300, '🚀 대기권을 돌파했습니다. 내일 다시 비워집니다.'],
+    ];
+    const counts = { americano: 0, shot: 0, latte: 0, decaf: 0 };
+    const $ = id => document.getElementById(id);
+    const cup = $('cf-cup');
+    const draw = () => {
+      const pct = Object.keys(counts).reduce((a, k) => a + counts[k] * drinks[k].pct, 0);
+      const cups = Object.values(counts).reduce((a, b) => a + b, 0);
+      $('cf-pct').textContent = pct;
+      $('cf-cups').textContent = cups;
+      let st = tiers[0][1]; for (const [at, t] of tiers) if (pct >= at && (at > 0 || pct === 0)) st = t;
+      if (pct > 0 && pct < 30) st = tiers[1][1];
+      $('cf-state').textContent = st;
+      const level = Math.min(pct, 100) / 100, y = 116 - 80 * level;
+      $('cf-liquid').setAttribute('y', y); $('cf-liquid').setAttribute('height', 116 - y);
+      $('cf-crema').setAttribute('y', y);
+      cup.classList.toggle('warm', pct > 0);
+      cup.classList.toggle('full', pct >= 100);
+      cup.classList.toggle('jitter', pct >= 150);
+    };
+    const key = k => `cf-${k}-d${day}`;
+    Promise.all(Object.keys(counts).map(k => shared('get', key(k)).then(n => { counts[k] = n || 0; }))).then(draw);
+    draw();
+    cfBox.querySelectorAll('.cf-menu button').forEach(b => b.addEventListener('click', () => {
+      const k = b.dataset.drink;
+      cfBox.querySelectorAll('.cf-menu button').forEach(x => { x.disabled = true; });
+      shared('hit', key(k)).then(n => {
+        if (n === null) $('cf-msg').textContent = '지금은 커피를 못 받습니다. 잠시 후에 다시 주세요.';
+        else { counts[k] = n; draw(); $('cf-msg').textContent = pick(drinks[k].say); }
+        setTimeout(() => cfBox.querySelectorAll('.cf-menu button').forEach(x => { x.disabled = false; }), 300);
+      });
+    }));
   }
 
   // 4. 진서 깨우기
-  const wkBtn = document.getElementById('wk-btn');
-  if (wkBtn) {
-    const say = ['……', '5분만…', '진짜 5분만…', '알람 하나 남았습니다. 아직 괜찮습니다.', '일어났습니다. 정확히 20분 지났습니다.'];
-    let step = 0, naps = 0;
-    const text = document.getElementById('wk-text'), dots = document.querySelectorAll('#wk-dots i');
-    const draw = () => {
-      dots.forEach((d, i) => d.classList.toggle('on', i < step));
-      document.getElementById('wk-step').textContent = `알람 ${step} / 5`;
+  const wkBox = document.getElementById('wake');
+  if (wkBox) {
+    const $ = id => document.getElementById(id);
+    const acts = {
+      alarm: { d: -15, say: ['5분만…', '진짜 5분만…', '알람 하나 남았습니다. 아직 괜찮습니다.', '……(못 들은 척)'],
+               miss: 0.25, missD: +8, missSay: ['알람을 끄고 다시 잡니다. 손이 먼저 일어났습니다.', '알람을 껐습니다. 기억은 없습니다.'] },
+      call:  { d: +12, say: ['전화는 싫습니다. 더 깊이 잠듭니다.', '받지 않습니다. 문자도 안 받습니다.', '진동이 자장가가 됐습니다.'] },
+      coffee:{ d: -28, say: ['커피 냄새에 코가 먼저 일어났습니다.', '"…아메리카노?" 하고 잠꼬대합니다.', '코가 씰룩거립니다. 거의 다 왔습니다.'] },
+      food:  { d: -22, say: ['"밥"이라는 단어에 귀가 움직입니다.', '"…먹던 거로" 하고 잠꼬대합니다.', '배에서 대답이 먼저 나왔습니다.'] },
+      shake: { d: -8, say: ['흔들어도 잡니다. 대체로 잡니다.', '이불을 더 당깁니다.'],
+               miss: 0.3, missD: +5, missSay: ['벌꿀오소리처럼 사납게 뒤척입니다. 물 뻔했습니다.', '"건드리지 마십시오" 하고 다시 잡니다.'] },
     };
-    wkBtn.addEventListener('click', () => {
-      if (step >= 5) {               // 다시 재우기
-        step = 0; naps++;
-        if (naps >= 3) {
-          text.textContent = '12시간 모드에 들어갔습니다. 오늘은 일어나지 않습니다.';
-          wkBtn.textContent = '포기하기';
-          step = -1; draw(); return;
+    const wakeSay = {
+      alarm: '일어났습니다. 정확히 20분 지났습니다.',
+      call: '일어났습니다. 전화 때문은 아닙니다.',
+      coffee: '일어났습니다. 커피 덕분입니다. 효과가 미미하다던 말은 취소합니다.',
+      food: '일어났습니다. 밥 먹으러 갑니다. 먹던 거로요.',
+      shake: '일어났습니다. 기분은 별로입니다.',
+    };
+    let depth, tries, t0, idx, done;
+    let best = null; try { best = JSON.parse(localStorage.getItem('wake-best')); } catch (e) {}
+    const showBest = () => { $('wk-best').textContent = best ? `최고 기록 ${best.tries}번 · ${best.sec}초` : '최고 기록 -'; };
+    const face = () => depth > 110 ? '😪💤' : depth > 80 ? '😴' : depth > 55 ? '😪' : depth > 30 ? '🥱' : '😑';
+    const draw = () => {
+      $('wk-depth').textContent = Math.max(0, Math.round(depth));
+      $('wk-tries').textContent = tries;
+      $('wk-fill').style.width = Math.min(100, Math.max(0, depth)) + '%';
+      $('wk-stage').dataset.state = done ? 'awake' : depth > 110 ? 'deep' : 'sleep';
+      $('wk-face').textContent = done === 'up' ? '😐' : done === '12h' ? '🛌' : face();
+    };
+    const reset = () => {
+      depth = 100; tries = 0; t0 = 0; idx = {}; done = false;
+      $('wk-text').textContent = '진서가 자고 있습니다. 많이 자면 12시간도 잡니다. 깨워 보세요.';
+      $('wk-reset').hidden = true;
+      wkBox.querySelectorAll('.wk-acts button').forEach(b => { b.disabled = false; });
+      draw(); showBest();
+    };
+    const finish = (kind, text) => {
+      done = kind; $('wk-text').textContent = text; $('wk-reset').hidden = false;
+      wkBox.querySelectorAll('.wk-acts button').forEach(b => { b.disabled = true; });
+      draw();
+    };
+    wkBox.querySelectorAll('.wk-acts button').forEach(b => b.addEventListener('click', () => {
+      if (done) return;
+      if (!t0) t0 = Date.now();
+      const k = b.dataset.act, a = acts[k];
+      tries++;
+      let text;
+      if (a.miss && Math.random() < a.miss) { depth += a.missD; text = pick(a.missSay); }
+      else {
+        depth += a.d * (0.8 + Math.random() * 0.4);
+        idx[k] = (idx[k] || 0); text = a.say[idx[k] % a.say.length]; idx[k]++;
+      }
+      depth = Math.min(depth, 150);
+      const f = $('wk-face'); f.classList.add('hit'); setTimeout(() => f.classList.remove('hit'), 180);
+      if (depth >= 140) return finish('12h', '12시간 모드에 들어갔습니다. 전화를 너무 많이 하셨습니다. 오늘은 포기하십시오.');
+      if (depth <= 0) {
+        const sec = Math.max(1, Math.round((Date.now() - t0) / 1000));
+        let rec = '';
+        if (!best || tries < best.tries || (tries === best.tries && sec < best.sec)) {
+          best = { tries, sec }; rec = ' 🏆 최고 기록입니다.';
+          try { localStorage.setItem('wake-best', JSON.stringify(best)); } catch (e) {}
         }
-        text.textContent = '다시 잡니다. 금방 잡니다.';
-        wkBtn.textContent = '알람 울리기 ⏰'; draw(); return;
+        finish('up', `${wakeSay[k]} (깨우는 데 ${tries}번 · ${sec}초)${rec}`);
+        showBest(); return;
       }
-      if (step === -1) {             // 12시간 모드에서 포기
-        step = 0; naps = 0;
-        text.textContent = '진서가 자고 있습니다. 깨워 보세요.';
-        wkBtn.textContent = '알람 울리기 ⏰'; draw(); return;
-      }
-      text.textContent = say[step];
-      step++; draw();
-      if (step === 5) wkBtn.textContent = '다시 재우기 💤';
-    });
+      $('wk-text').textContent = text;
+      draw();
+    }));
+    $('wk-reset').addEventListener('click', reset);
+    reset();
   }
 
-  // 3. 진서 말투 번역기
+  // 5. 진서 말투 번역기
   const trForm = document.getElementById('tr-form');
   if (trForm) {
-    const dict = [
-      ['배고파', '배가 고픕니다'], ['배불러', '배가 부릅니다'], ['졸려', '졸립니다'], ['피곤해', '피곤합니다'],
-      ['심심해', '심심합니다'], ['귀찮아', '귀찮습니다'], ['힘들어', '힘듭니다'], ['재밌어', '재밌습니다'],
-      ['재미없어', '재미없습니다'], ['좋아', '좋습니다'], ['싫어', '싫습니다'], ['몰라', '모르겠습니다'],
-      ['괜찮아', '괜찮습니다'], ['보고 싶어', '보고 싶습니다'], ['보고싶어', '보고 싶습니다'], ['사랑해', '사랑합니다'],
-      ['미안해', '미안합니다'], ['고마워', '고맙습니다'], ['추워', '춥습니다'], ['더워', '덥습니다'],
-      ['자고 싶어', '자고 싶습니다'], ['집 가고 싶어', '집에 가고 싶습니다'], ['집가고싶어', '집에 가고 싶습니다'],
-      ['가자', '갑시다'], ['먹자', '먹읍시다'], ['놀자', '놉시다'], ['뭐해', '뭐 하십니까'], ['어디야', '어디십니까'],
-      ['대박', '놀랍습니다'], ['헐', '놀랍습니다'], ['짜증나', '짜증이 납니다'], ['행복해', '행복합니다'],
+    const $ = id => document.getElementById(id);
+    const jong = ch => { const c = (ch || '').charCodeAt(0) - 0xAC00; return c >= 0 && c < 11172 ? c % 28 : -1; };
+    // 문장 끝 바꾸기 (긴 것부터)
+    const ends = [
+      ['집 가고 싶어', '집에 가고 싶습니다'], ['집가고싶어', '집에 가고 싶습니다'], ['하기 싫어', '하기 싫습니다'], ['하기싫어', '하기 싫습니다'],
+      ['보고 싶어', '보고 싶습니다'], ['보고싶어', '보고 싶습니다'], ['자고 싶어', '자고 싶습니다'], ['배고파', '배가 고픕니다'],
+      ['배불러', '배가 부릅니다'], ['졸려', '졸립니다'], ['피곤해', '피곤합니다'], ['심심해', '심심합니다'], ['귀찮아', '귀찮습니다'],
+      ['힘들어', '힘듭니다'], ['재밌어', '재밌습니다'], ['재미없어', '재미없습니다'], ['짜증나', '짜증이 납니다'], ['화나', '화가 납니다'],
+      ['몰라', '모르겠습니다'], ['괜찮아', '괜찮습니다'], ['사랑해', '사랑합니다'], ['미안해', '미안합니다'], ['고마워', '고맙습니다'],
+      ['추워', '춥습니다'], ['더워', '덥습니다'], ['맛있어', '맛있습니다'], ['맛없어', '맛없습니다'], ['좋아해', '좋아합니다'],
+      ['좋아', '좋습니다'], ['싫어', '싫습니다'], ['대박', '놀랍습니다'], ['헐', '놀랍습니다'], ['진짜', '진짜입니다'], ['뭐해', '뭐 하십니까'],
+      ['어디야', '어디십니까'], ['할래', '하시겠습니까'], ['마실래', '마시겠습니까'], ['먹을래', '드시겠습니까'], ['갈래', '가시겠습니까'],
+      ['가자', '갑시다'], ['먹자', '먹읍시다'], ['놀자', '놉시다'], ['하자', '합시다'], ['자자', '잡시다'], ['줘', '주십시오'], ['해줘', '해 주십시오'],
+      ['잘자', '안녕히 주무십시오'], ['안녕', '안녕하십니까'], ['ㅇㅇ', '그렇습니다'], ['ㄴㄴ', '아닙니다'], ['응', '그렇습니다'], ['아니', '아닙니다'],
+      ['했어', '했습니다'], ['었어', '었습니다'], ['았어', '았습니다'], ['겠어', '겠습니다'], ['싶어', '싶습니다'], ['없어', '없습니다'], ['있어', '있습니다'],
+      ['같아', '같습니다'], ['거야', '겁니다'], ['이야', '입니다'], ['예요', '입니다'], ['이에요', '입니다'], ['해요', '합니다'], ['해', '합니다'], ['야', '입니다'],
     ];
-    const tails = ['대체로 그렇습니다.', '이유는 딱히 없습니다.', '알아서 믿으십쇼.', '본인은 괜찮다고 합니다.',
-      '미리 사과드립니다.', '사실 다들 압니다.', '아마도요.', '효과는 미미합니다.'];
-    const jong = ch => { const c = (ch || '').charCodeAt(0) - 0xAC00; return c >= 0 && c < 11172 ? c % 28 : 0; };
-    const translate = raw => {
+    const qEnds = [['뭐해', '뭐 하십니까'], ['뭐 해', '뭐 하십니까'], ['어디야', '어디십니까'], ['했어', '했습니까'], ['었어', '었습니까'], ['았어', '았습니까'], ['있어', '있습니까'], ['없어', '없습니까'], ['해', '합니까'], ['야', '입니까'], ['이야', '입니까']];
+    const topics = [
+      [/배고|밥|먹|치킨|피자|라면|점심|저녁/, ['먹던 거 먹을 예정입니다.', '메뉴 고민은 길고 결론은 늘 비슷합니다.', '천천히 먹겠습니다.']],
+      [/졸|잠|자고|피곤|잘자/, ['많이 자면 12시간도 잡니다.', '알람은 다섯 개 맞추겠습니다.', '자면 회복됩니다. 확실합니다.']],
+      [/커피|카페|아메리카노|라떼/, ['효과는 미미합니다.', '사실 다들 압니다.', '몇 번째인지는 세지 않습니다.']],
+      [/과제|시험|공부|팀플|발표|레포트/, ['내일 해도 되는 일입니다. 알면서도 합니다.', '대체로 버팁니다.', '그래도 끝은 납니다. 아마도요.']],
+      [/월요일|출근|등교|학교|수업/, ['버티는 중입니다. 대체로 버팁니다.', '하루는 대체로 비슷하게 흘러갑니다.']],
+      [/사랑|보고 ?싶|좋아해|고마/, ['티는 안 내지만 좋아합니다.', '겉으로는 "아 그래?" 하고 넘어갑니다. 속으로는 몇 번 곱씹습니다.']],
+      [/짜증|화나|싫|미워/, ['한 번은 웃으면서 말하고, 두 번째부터는 안 웃습니다.', '티가 납니다. 숨기려고 해 봤는데 잘 안 됐습니다.']],
+      [/여행|놀|바다|비행기|휴가/, ['여행 얘기가 나오면 좀 길어집니다. 미리 사과드립니다.', '바다 쪽으로 가겠습니다.']],
+      [/술|소주|맥주|한잔|취/, ['3병까지는 괜찮습니다. 알아서 믿으십쇼.', '취하면 집에 갑니다. 집 주소는 안 까먹습니다.']],
+      [/추워|더워|날씨|비|눈/, ['봄, 가을만은 못합니다.', '여름보다는 겨울이 낫습니다.']],
+      [/전화|문자|카톡|연락/, ['전화도 문자도 싫습니다. 그래도 답장은 빠릅니다.']],
+      [/강아지|고양이|댕댕|냥/, ['둘 다 무섭습니다. 귀여운 건 압니다.']],
+      [/로또|돈|부자|월급/, ['적당히 벌고 재밌게 살 예정입니다.', '일단 아무한테도 말 안 하겠습니다.']],
+    ];
+    const tails = ['대체로 그렇습니다.', '이유는 딱히 없습니다.', '알아서 믿으십쇼.', '본인은 괜찮다고 합니다.', '미리 사과드립니다.',
+      '사실 다들 압니다.', '아마도요.', '효과는 미미합니다.', '개인차 있습니다.', '나름의 시스템입니다.', '그 이상도 이하도 아닙니다.',
+      '더 묻지 않으셔도 됩니다.', '생각보다 진지합니다.', '여기까지 들으셨으면 꽤 친해진 겁니다.', '대체로 괜찮습니다.'];
+    const official = [['[공식 입장] ', ' 추가 질문은 받지 않습니다.'], ['[속보] ', ' 자세한 내용은 들어가 보셔야 압니다.'],
+      ['[안내 말씀] ', ' 이용에 참고 바랍니다.'], ['[보도자료] ', ' 본 내용은 사실과 다를 수 있습니다.']];
+    let mode = 'basic', last = '', lastOut = '';
+
+    const formal = raw => {
       let s = raw.trim();
-      if (!s) return '할 말이 없습니다. 그것도 괜찮습니다.';
-      const laugh = /ㅋ|ㅎㅎ/.test(s), cry = /ㅠ|ㅜ/.test(s), q = /\?$/.test(s.replace(/[ㅋㅎㅠㅜ~!.\s]+$/, ''));
-      s = s.replace(/[ㅋㅎㅠㅜ]+/g, '').replace(/[~!?.…\s]+$/g, '').trim();
-      let hit = false;
-      for (const [a, b] of dict) {
-        if (s.endsWith(a)) { s = s.slice(0, -a.length) + b; hit = true; break; }
+      const f = { laugh: /ㅋ|ㅎㅎ/.test(s), cry: /ㅠ|ㅜ/.test(s), angry: /ㅡㅡ|;;/.test(s), bang: /!/.test(s) };
+      f.q = /\?/.test(s);
+      s = s.replace(/ㅋ+|ㅎㅎ+|ㅠ+|ㅜ+|ㅡㅡ|;+/g, '').replace(/[~!?.…\s]+$/g, '').trim();
+      if (!s) return { s: f.laugh ? '웃깁니다' : f.cry ? '슬픕니다' : '할 말이 없습니다', f, ok: true };
+      let ok = false;
+      for (const [a, b] of (f.q ? qEnds.concat(ends) : ends)) if (s.endsWith(a)) { s = s.slice(0, -a.length) + b; ok = true; break; }
+      if (!ok && /[어아]$/.test(s) && jong(s[s.length - 2]) === 20) {          // 잤어 → 잤습니다
+        s = s.slice(0, -1) + (f.q ? '습니까' : '습니다'); ok = true;
       }
-      if (!hit) {
-        if (/해$/.test(s)) { s = s.slice(0, -1) + '합니다'; hit = true; }
-        else if (/(이)?야$/.test(s)) { s = s.replace(/(이)?야$/, '입니다'); hit = true; }
-        else if (/다$/.test(s)) {
-          hit = true;
-          if (jong(s[s.length - 2]) === 20) s = s.slice(0, -1) + '습니다';   // 끝났다 → 끝났습니다
-        }
+      if (!ok && /대$/.test(s)) { s = s.slice(0, -1) + '답니다'; ok = true; }   // 비 온대 → 비 온답니다
+      if (!ok && /다$/.test(s) && s.length > 1) {                                // 웃기다 → 웃깁니다, 좋다 → 좋습니다
+        ok = true;
+        const p = s[s.length - 2], jj = jong(p), base = s.slice(0, -2);
+        if (jj === 0) s = base + String.fromCharCode(p.charCodeAt(0) + 17) + '니다';
+        else if (jj === 8) s = base + String.fromCharCode(p.charCodeAt(0) - 8 + 17) + '니다';
+        else if (jj > 0) s = s.slice(0, -1) + '습니다';
       }
-      if (!s) s = '그렇습니다';
-      let out = s + (q ? '?' : '.');
-      if (!hit && !q) out = s + (jong(s[s.length - 1]) > 0 ? ', 이라고 합니다.' : ', 라고 합니다.');
-      out += ' ' + (laugh ? '웃기긴 합니다.' : cry ? '조금 슬프긴 합니다.' : pick(tails));
-      return out;
+      if (!ok && !f.q && jong(s[s.length - 1]) >= 0 && !/[요어아지네게고며니냐까래대데걸]$/.test(s)) {
+        s += jong(s[s.length - 1]) > 0 ? '입니다' : '입니다'; ok = true;     // 치킨 → 치킨입니다
+      }
+      return { s, f, ok };
     };
-    trForm.addEventListener('submit', e => {
-      e.preventDefault();
-      document.getElementById('tr-out').textContent = translate(document.getElementById('tr-in').value);
-    });
+    const translate = raw => {
+      if (/^[ㅋㅎ\s!~.]+$/.test(raw.trim())) return pick(['웃깁니다. 소리는 안 냈습니다.', '웃깁니다. 티는 안 냈습니다.', '웃었습니다. 대체로 속으로 웃습니다.']);
+      const { s, f, ok } = formal(raw);
+      const topic = topics.find(([re]) => re.test(raw));
+      let tail = f.laugh ? pick(['웃기긴 합니다.', '웃었습니다. 티는 안 냈습니다.']) : f.cry ? pick(['조금 슬프긴 합니다.', '울진 않았습니다. 거의요.'])
+        : f.angry ? '정색한 겁니다. 진지합니다.' : topic && Math.random() < .75 ? pick(topic[1]) : pick(tails);
+      let body = ok ? s + (f.q ? '?' : '.') : s + ', 라고 합니다.';
+      if (mode === 'flat') return body.replace(/[!]/g, '.') + ' 그렇습니다.';
+      if (mode === 'official') { const [p, q] = pick(official); return p + body + q; }
+      if (mode === 'footnote') return body.replace(/([.?])$/, '*$1') + ' ' + tail + '\n* 개인차 있음. 자세한 건 아래에.';
+      return body + ' ' + tail + (f.bang ? ' 나름 신났습니다.' : '');
+    };
+    const run = () => {
+      const v = $('tr-in').value;
+      let out, n = 0;
+      do { out = translate(v); n++; } while (v === last && out === lastOut && n < 6);
+      last = v; lastOut = out;
+      $('tr-out').textContent = out;
+    };
+    trForm.addEventListener('submit', e => { e.preventDefault(); run(); });
+    document.querySelectorAll('.tr-modes button').forEach(b => b.addEventListener('click', () => {
+      mode = b.dataset.mode;
+      document.querySelectorAll('.tr-modes button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      if ($('tr-in').value.trim()) run();
+    }));
+    document.querySelectorAll('.tr-examples button').forEach(b => b.addEventListener('click', () => {
+      $('tr-in').value = b.textContent; run();
+    }));
   }
