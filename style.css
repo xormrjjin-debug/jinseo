@@ -447,3 +447,40 @@
     .two .pc-info { grid-column: 1 / -1; margin: 14px 0 0; }
   }
   .two.solo > .card { border-top: 1px solid var(--rule); padding-top: 18px; }
+
+  /* ---------- Play ---------- */
+  .play { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .pbox { border: 1px solid var(--hair); padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .pbox-wide { grid-column: 1 / -1; }
+  .pbox-head { display: flex; justify-content: space-between; gap: 12px; color: var(--mute); margin: 0; }
+  .pbox-note { color: var(--mute); margin: 0; }
+  .pbox-msg { margin: 0; font-weight: 400; font-size: 15px; color: var(--mute); min-height: 3.2em; }
+  .pbox .rand-btn { align-self: flex-start; }
+  .now-text { margin: 0; font-size: clamp(22px, 2.8vw, 32px); line-height: 1.35; letter-spacing: -0.03em; font-weight: 400; }
+  .now-text strong { font-weight: 800; }
+
+  .bd-stage { height: 150px; display: grid; place-items: center; background: var(--soft, rgba(0,0,0,.03)); }
+  .bd-pet { display: inline-block; line-height: 1; font-size: 56px; transition: font-size .4s, transform .15s; }
+  .bd-pet.bump { transform: scale(1.15) rotate(-6deg); }
+  .bd-stat { margin: 0; font-weight: 400; }
+
+  .cf-pct { margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  .cf-bar { height: 14px; border: 1px solid var(--rule); position: relative; overflow: hidden; }
+  .cf-bar span { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--hot); transition: width .5s; }
+
+  .wk-dots { display: flex; gap: 8px; }
+  .wk-dots i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule); transition: background .2s; }
+  .wk-dots i.on { background: var(--hot); border-color: var(--hot); }
+  .wk-text { margin: 0; font-size: 20px; letter-spacing: -0.02em; min-height: 2.8em; }
+
+  .tr-form { display: flex; gap: 8px; }
+  .tr-form input {
+    flex: 1; min-width: 0; font: inherit; font-weight: 400; font-size: 16px; color: var(--ink);
+    background: transparent; border: 1px solid var(--rule); padding: 10px 12px;
+  }
+  .tr-form input:focus { outline: 2px solid var(--hot); outline-offset: -1px; }
+  .tr-out { margin: 0; font-size: 20px; letter-spacing: -0.02em; min-height: 2.8em; }
+
+  @media (max-width: 820px) {
+    .play { grid-template-columns: minmax(0, 1fr); }
+  }

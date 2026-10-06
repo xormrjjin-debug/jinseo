@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play — 김진서</title>
+<meta name="description" content="김진서">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="style.css?v=9">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar mono">
+    <a class="home" href="index.html"><span class="dot"></span>Jinseo Kim</a>
+    <nav>
+      <a href="tmi.html">TMI</a>
+      <a href="day.html">A Day</a>
+      <a href="quotes.html">Quotes</a>
+      <a href="manual.html">Manual</a>
+      <a href="someday.html">Someday</a>
+      <a href="faq.html">FAQ</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="play.html" class="on">Play</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScLmgt32PxkWkS45eZfbR4Ofhi3tz7xVRiOgccMDhrDgmYOjw/viewform" target="_blank" rel="noopener">Ask ↗</a>
+    </nav>
+    <span>GWANGJU <span id="clock">--:--</span></span>
+  </div>
+
+  <main class="dash two solo">
+
+  <section class="card chapters">
+    <div class="panel">
+      <h2 class="panel-title">눌러 보셔도 <i>됩니다.</i></h2>
+
+      <div class="play">
+
+        <!-- 1. 지금 진서는? -->
+        <article class="pbox pbox-wide" id="now">
+          <p class="pbox-head mono"><span>01 · 지금 진서는?</span><span>GWANGJU <span id="now-time">--:--</span></span></p>
+          <p class="now-text">진서는 아마 <strong id="now-text">…</strong></p>
+          <p class="pbox-note mono">* A Day 기준 추정입니다. 대체로 맞습니다.</p>
+        </article>
+
+        <!-- 2. 다 같이 키우는 벌꿀오소리 -->
+        <article class="pbox" id="badger">
+          <p class="pbox-head mono"><span>02 · 다 같이 키우는 벌꿀오소리</span><span>Lv. <span id="bd-lv">-</span></span></p>
+          <div class="bd-stage"><span class="bd-pet" id="bd-pet" aria-hidden="true">🦡</span></div>
+          <p class="bd-stat">지금까지 밥 <strong id="bd-count">-</strong>번 · 상태: <strong id="bd-mood">-</strong></p>
+          <p class="pbox-msg" id="bd-msg">모두가 같이 키웁니다. 밥 준 기록은 전부 쌓입니다.</p>
+          <button type="button" class="rand-btn mono" id="bd-btn">밥 주기 🍯</button>
+        </article>
+
+        <!-- 5. 카페인 충전 게이지 -->
+        <article class="pbox" id="coffee">
+          <p class="pbox-head mono"><span>03 · 진서 카페인 충전</span><span>오늘</span></p>
+          <p class="cf-pct"><span id="cf-pct">-</span>%</p>
+          <div class="cf-bar"><span id="cf-fill"></span></div>
+          <p class="pbox-msg" id="cf-msg">한 번 누를 때마다 한 모금씩 채워집니다. 매일 밤 비워집니다.</p>
+          <button type="button" class="rand-btn mono" id="cf-btn">커피 주기 ☕</button>
+        </article>
+
+        <!-- 4. 진서 깨우기 -->
+        <article class="pbox" id="wake">
+          <p class="pbox-head mono"><span>04 · 진서 깨우기</span><span id="wk-step">알람 0 / 5</span></p>
+          <div class="wk-dots" id="wk-dots"><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="wk-text" id="wk-text">진서가 자고 있습니다. 깨워 보세요.</p>
+          <button type="button" class="rand-btn mono" id="wk-btn">알람 울리기 ⏰</button>
+        </article>
+
+        <!-- 3. 진서 말투 번역기 -->
+        <article class="pbox" id="talk">
+          <p class="pbox-head mono"><span>05 · 진서 말투 번역기</span><span>KR → 진서</span></p>
+          <form id="tr-form" class="tr-form">
+            <input id="tr-in" type="text" maxlength="80" placeholder="예: 배고파 ㅠㅠ" autocomplete="off">
+            <button type="submit" class="rand-btn mono">번역 →</button>
+          </form>
+          <p class="tr-out" id="tr-out">배가 고픕니다. 대체로 그렇습니다.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+
+</div>
+<script src="script.js?v=9"></script>
+</body>
+</html>
