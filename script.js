@@ -1,3 +1,5 @@
+  document.documentElement.classList.add('js');
+
   // 광주 현재 시각
   const clock = document.getElementById('clock');
   const tick = () => clock.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit' });

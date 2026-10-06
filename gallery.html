@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>김진서</title>
+<title>Gallery — 김진서</title>
 <meta name="description" content="김진서">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="style.css?v=6">
@@ -20,7 +20,7 @@
       <a href="manual.html">Manual</a>
       <a href="someday.html">Someday</a>
       <a href="faq.html">FAQ</a>
-      <a href="gallery.html">Gallery</a>
+      <a href="gallery.html" class="on">Gallery</a>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLScLmgt32PxkWkS45eZfbR4Ofhi3tz7xVRiOgccMDhrDgmYOjw/viewform" target="_blank" rel="noopener">Ask ↗</a>
     </nav>
     <span>GWANGJU <span id="clock">--:--</span></span>
@@ -43,15 +43,15 @@
 
   <section class="card chapters">
     <div class="panel">
-      <p class="panel-label mono">About</p>
-      <p class="about"><strong>김진서</strong>입니다. 이력서에는 안 쓰는 이야기만 있습니다. 학교나 전공 얘기는 없습니다. 그건 물어보면 대답합니다. 여기엔 대신 제가 뭘 쓸데없이 잘하는지, 술은 몇 병 먹는지 같은 게 있습니다. 끝까지 읽으면 저랑 밥 한 끼 정도는 같이 먹을 수 있는 사이가 됩니다. 아마도요.</p>
-      <p class="panel-label mono">최근 소식</p>
-        <ul class="news">
-          <li><time class="mono">10.06</time><span>질문함을 열었습니다. 아무거나 물어보셔도 됩니다.</span></li>
-          <li><time class="mono">10.06</time><span>사진첩이 생겼습니다. 사진은 아직 한 장입니다.</span></li>
-          <li><time class="mono">10.06</time><span>방문자 수를 달았습니다. 대체로 제가 들어옵니다.</span></li>
-          <li><time class="mono">10.04</time><span>홈페이지를 만들었습니다. 생각보다 오래 걸렸습니다.</span></li>
-        </ul>
+      <h2 class="panel-title">사진은 <i>대체로 잘 나온 것만 올립니다.</i></h2>
+      <div class="shots">
+        <figure class="shot">
+          <button type="button" data-src="images/profile.jpg"><img src="images/profile.jpg" alt="치즈버거를 먹는 김진서" loading="lazy"></button>
+          <figcaption>치즈가 생각보다 길었습니다.</figcaption>
+        </figure>
+        <span class="empty mono">곧 올라옵니다</span>
+        <span class="empty mono">아마도요</span>
+      </div>
     </div>
   </section>
 
@@ -64,6 +64,10 @@
     <span>Last updated 2026.10</span>
   </footer>
 
+</div>
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button type="button" class="lb-close mono" aria-label="닫기">Close ✕</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
 </div>
 <script src="script.js?v=6"></script>
 </body>

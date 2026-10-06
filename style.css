@@ -184,8 +184,8 @@
   }
 
   /* reveal */
-  .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
-  .rv.on { opacity: 1; transform: none; }
+  .js .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .js .rv.on { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; } }
 
   @media (max-width: 820px) {
@@ -435,3 +435,4 @@
     .two .panel .row, .two .panel .spec > div { grid-template-columns: 1fr; gap: 2px; }
   }
   .two > * { min-width: 0; }
+  .bar nav a.on { color: var(--hot); }
