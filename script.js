@@ -156,7 +156,11 @@
 
   // ---------- 닉네임 + 랭킹 (구글 폼으로 기록, 구글 시트에서 읽기) ----------
   // 구글 폼/시트를 연결하면 아래 값을 채웁니다.
-  const RANK = { form: '', game: '', nick: '', count: '', sheet: '' };
+  const RANK = {
+    form: 'https://docs.google.com/forms/d/e/1FAIpQLSd5qr5nD6pihf5517LR0J1dw0stGdS0Y7tWyNcoOslPQCgGjw/formResponse',
+    game: 'entry.2141413772', nick: 'entry.1196657411', count: 'entry.1620336347',
+    sheet: '1zwIkZ0RHeh96o-uEM--CgqvEsRhBJmHxbx4W5ITTAC8',
+  };
   const rankReady = () => RANK.form && RANK.sheet;
   let nickname = ''; try { nickname = localStorage.getItem('play-nick') || ''; } catch (e) {}
   const players = [];
