@@ -197,7 +197,7 @@
       who.querySelector('b').textContent = nickname;
       who.querySelector('.pl-mine').textContent = nickname ? mine() : 0;
       const list = $(pfx + '-rank'), me = $(pfx + '-me');
-      if (!rankReady()) { list.innerHTML = '<li class="rank-empty">랭킹은 곧 열립니다. 기록은 지금부터 셉니다.</li>'; me.textContent = ''; return; }
+      if (!rankReady()) { list.innerHTML = '<li class="rank-empty">랭킹은 곧 열립니다.</li>'; me.textContent = ''; return; }
       if (!sheetRows) { list.innerHTML = '<li class="rank-empty">랭킹을 못 불러왔습니다. 잠시 후 다시 봐 주세요.</li>'; return; }
       const tot = {};
       sheetRows.filter(r => r.g === game).forEach(r => { tot[r.n] = (tot[r.n] || 0) + r.c; });
