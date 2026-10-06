@@ -92,31 +92,46 @@
     tmiBtn.addEventListener('click', show);
   }
 
-  // 질문함 (FormSubmit으로 메일 전송)
+  // 챕터 탭
+  const tabBtns = document.querySelectorAll('.tabs button');
+  const openTab = id => {
+    tabBtns.forEach(b => {
+      const on = b.dataset.tab === id;
+      b.setAttribute('aria-selected', on);
+      document.getElementById('p-' + b.dataset.tab).hidden = !on;
+    });
+  };
+  tabBtns.forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
+  document.querySelectorAll('.bar nav a[data-tab]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    openTab(a.dataset.tab);
+    document.getElementById('about').scrollIntoView();
+  }));
+  const fromHash = location.hash.slice(1);
+  if (document.getElementById('p-' + fromHash)) { openTab(fromHash); }
+
+  // 질문함 (구글 폼으로 전송)
+  // 구글 폼을 연결하면 아래 세 값을 채웁니다.
+  const GFORM = { action: '', question: '', name: '' };
   const ask = document.getElementById('ask-form');
   if (ask) {
     const msg = document.getElementById('ask-msg');
+    const btn = ask.querySelector('button');
+    if (!GFORM.action) {
+      btn.disabled = true;
+      msg.textContent = '질문함은 준비 중입니다. 급하면 메일로 보내 주세요.';
+    }
     ask.addEventListener('submit', e => {
       e.preventDefault();
-      const btn = ask.querySelector('button');
+      if (!GFORM.action) return;
       const data = new FormData(ask);
-      if (data.get('_honey')) return;
+      const body = new URLSearchParams();
+      body.append(GFORM.question, data.get('question'));
+      if (GFORM.name) body.append(GFORM.name, data.get('name') || '익명');
       btn.disabled = true; msg.textContent = '보내는 중입니다.';
-      fetch('https://formsubmit.co/ajax/jjin0315@jnu.ac.kr', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: '[홈페이지 질문함] 새 질문이 왔습니다',
-          _template: 'box',
-          이름: data.get('name') || '익명',
-          질문: data.get('question'),
-        }),
-      }).then(r => r.json()).then(r => {
-        if (String(r.success) !== 'true') throw new Error();
-        ask.reset();
-        msg.textContent = '잘 받았습니다. 대체로 답합니다.';
-      }).catch(() => {
-        msg.textContent = '전송이 안 됐습니다. 잠시 후 다시 해 보시거나 메일로 보내 주세요.';
-      }).finally(() => { btn.disabled = false; });
+      fetch(GFORM.action, { method: 'POST', mode: 'no-cors', body })
+        .then(() => { ask.reset(); msg.textContent = '잘 받았습니다. 대체로 답합니다.'; })
+        .catch(() => { msg.textContent = '전송이 안 됐습니다. 잠시 후 다시 해 보시거나 메일로 보내 주세요.'; })
+        .finally(() => { btn.disabled = false; });
     });
   }

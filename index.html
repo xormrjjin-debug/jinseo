@@ -8,22 +8,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="top">
 <div class="wrap">
 
   <div class="bar mono">
-    <a class="home" href="index.html"><span class="dot"></span>Jinseo Kim</a>
+    <a class="home" href="#top"><span class="dot"></span>Jinseo Kim</a>
     <nav>
-      <a href="index.html" class="on">Home</a>
-      <a href="tmi.html">TMI</a>
-      <a href="day.html">A Day</a>
-      <a href="quotes.html">Quotes</a>
-      <a href="manual.html">Manual</a>
-      <a href="someday.html">Someday</a>
-      <a href="faq.html">FAQ</a>
-      <a href="ask.html">Ask</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="contact.html">Contact</a>
+      <a href="#tmi" data-tab="tmi">TMI</a>
+      <a href="#day" data-tab="day">A Day</a>
+      <a href="#quotes" data-tab="quotes">Quotes</a>
+      <a href="#manual" data-tab="manual">Manual</a>
+      <a href="#someday" data-tab="someday">Someday</a>
+      <a href="#faq" data-tab="faq">FAQ</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#ask">Ask</a>
     </nav>
     <span>GWANGJU <span id="clock">--:--</span></span>
   </div>
@@ -70,30 +68,107 @@
     <p class="about"><strong>김진서</strong>입니다. 이력서에는 안 쓰는 이야기만 있습니다. 학교나 전공 얘기는 없습니다. 그건 물어보면 대답합니다. 여기엔 대신 제가 뭘 쓸데없이 잘하는지, 술은 몇 병 먹는지 같은 게 있습니다. 끝까지 읽으면 저랑 밥 한 끼 정도는 같이 먹을 수 있는 사이가 됩니다. 아마도요.</p>
   </section>
 
-  <section class="card rv">
-    <div class="card-head mono"><span>최근 사진</span><a href="gallery.html">더 보기 →</a></div>
-    <div class="thumbs">
-      <a href="gallery.html"><img src="images/profile.jpg" alt="치즈버거를 먹는 김진서" loading="lazy"></a>
-      <span class="empty mono">곧 올라옵니다</span>
-      <span class="empty mono">아마도요</span>
-      <span class="empty mono">대체로요</span>
+  <section class="card chapters rv" id="about">
+    <div class="card-head mono"><span>About me</span><span>6 chapters</span></div>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" class="mono" id="t-tmi" aria-controls="p-tmi" aria-selected="true" data-tab="tmi">TMI</button>
+      <button type="button" role="tab" class="mono" id="t-day" aria-controls="p-day" aria-selected="false" data-tab="day">A Day</button>
+      <button type="button" role="tab" class="mono" id="t-quotes" aria-controls="p-quotes" aria-selected="false" data-tab="quotes">Quotes</button>
+      <button type="button" role="tab" class="mono" id="t-manual" aria-controls="p-manual" aria-selected="false" data-tab="manual">Manual</button>
+      <button type="button" role="tab" class="mono" id="t-someday" aria-controls="p-someday" aria-selected="false" data-tab="someday">Someday</button>
+      <button type="button" role="tab" class="mono" id="t-faq" aria-controls="p-faq" aria-selected="false" data-tab="faq">FAQ</button>
+    </div>
+    <div class="panel" id="p-tmi" role="tabpanel" aria-labelledby="t-tmi">
+      <h2 class="panel-title">알아도 <i>딱히 도움은 안 됩니다.</i></h2>
+        <div class="rows">
+          <div class="row"><span class="q mono">쓸데없는 특기</span><span class="a"><strong>사람 괴롭히기</strong>를 잘합니다. 친한 사람한테만 합니다. 그러니까 괴롭힘을 당하고 있다면 친해진 겁니다. 보여 달라고 하지 않아도 보여 드립니다.</span></div>
+          <div class="row"><span class="q mono">요즘 빠져 있는 것</span><span class="a">요즘은 <strong>여행</strong>입니다. 다녀오면 바로 다음 갈 곳을 찾아봅니다. 한번 빠지면 관련된 건 다 찾아봐야 직성이 풀립니다. 그래서 대화하다 여행 얘기가 나오면 좀 길어집니다. 미리 사과드립니다.</span></div>
+          <div class="row"><span class="q mono">아무도 모르는 습관</span><span class="a"><strong>커피 중독</strong>입니다. 안 마시면 하루가 좀 이상합니다. 딱히 효과가 있는지는 모르겠습니다. 그래도 안 마셨다가 하루가 꼬인 적이 몇 번 있어서 계속 마시고 있습니다. 아무도 모르는 습관이라고 적었는데, 사실 다들 압니다.</span></div>
+          <div class="row"><span class="q mono">알람</span><span class="a">알람은 <strong>다섯 개 이상</strong> 맞춥니다. 첫 번째 알람에 일어난 적은 없습니다. 그래도 첫 번째 알람을 없애면 마지막 알람에도 못 일어날 것 같아서 그대로 둡니다. 나름의 시스템입니다.</span></div>
+          <div class="row"><span class="q mono">MBTI</span><span class="a"><strong>ESTJ</strong>입니다. 몇 번을 검사해도 안 바뀝니다. 그래서 꽤 믿는 편입니다. 그래도 물어보면 꼭 대답하고, 상대방 것도 꼭 물어봅니다.</span></div>
+        </div>
+    </div>
+    <div class="panel" id="p-day" role="tabpanel" aria-labelledby="t-day" hidden>
+      <h2 class="panel-title">하루는 <i>대체로 비슷하게 흘러갑니다.</i></h2>
+        <dl class="spec">
+          <div><dt class="mono">07:20</dt><dd>첫 번째 알람이 울립니다. <strong>듣기만 합니다.</strong></dd></div>
+          <div><dt class="mono">07:40</dt><dd>실제로 일어납니다. 알람 다섯 개를 다 듣고 나면 <strong>정확히 20분</strong>이 지나 있습니다. 매일 그렇습니다. 그래서 이제는 계획에 넣어 둡니다.</dd></div>
+          <div><dt class="mono">12:00</dt><dd><strong>점심 메뉴</strong>를 고민합니다. 고민은 길고 결론은 늘 비슷합니다. 같이 먹는 사람이 정해 주면 제일 좋습니다.</dd></div>
+          <div><dt class="mono">15:00</dt><dd>하루 중 제일 졸린 시간입니다. <strong>커피를 하나 더</strong> 마십니다. 몇 번째인지는 세지 않습니다. 효과는 미미합니다.</dd></div>
+          <div><dt class="mono">23:00</dt><dd>이제 자야지, 하고 <strong>휴대폰</strong>을 봅니다. 알고리즘이 오늘따라 잘 맞습니다.</dd></div>
+          <div><dt class="mono">01:00</dt><dd><strong>아까 그 생각</strong>을 아직 하고 있습니다. 대체로 내일 해도 되는 일입니다. 알면서도 합니다.</dd></div>
+        </dl>
+    </div>
+    <div class="panel" id="p-quotes" role="tabpanel" aria-labelledby="t-quotes" hidden>
+      <h2 class="panel-title">남들이 그러는데 <i>제가 이렇답니다.</i></h2>
+        <div class="quotes">
+          <div class="quote"><blockquote>처음 봤을 때랑 완전 다르다</blockquote><p>자주 듣습니다. 어떻게 달랐는지는 아무도 정확히 말해 주지 않습니다. <strong>좋은 쪽</strong>이라고 믿고 있습니다.</p></div>
+          <div class="quote"><blockquote>너 진짜 독특하다</blockquote><p>순화한 겁니다. 원래 표현은 더 짧고 강합니다. 본인은 동의하지 않습니다. 그런데 <strong>세 명 이상</strong>한테 들었습니다. 슬슬 인정해야 할 것 같습니다.</p></div>
+          <div class="quote"><blockquote>가만히 있으면 멀쩡해 보인다</blockquote><p><strong>칭찬인지 아닌지</strong> 아직 판단 중입니다. 일단 웃고 넘어갑니다.</p></div>
+        </div>
+    </div>
+    <div class="panel" id="p-manual" role="tabpanel" aria-labelledby="t-manual" hidden>
+      <h2 class="panel-title">다루기 <i>어렵지 않습니다.</i></h2>
+        <dl class="spec">
+          <div><dt class="mono">친해지는 법</dt><dd><strong>먼저 말을 걸어 주면</strong> 됩니다. 그다음은 알아서 합니다. 낯을 가리는 게 아니라 타이밍을 보는 중입니다. 세 번쯤 만나면 말이 많아집니다. 그때부터는 오히려 조용히 시키셔야 할 수도 있습니다.</dd></div>
+          <div><dt class="mono">좋아하는 말</dt><dd><ul>
+            <li><strong>"너랑 있으면 시간 가는 줄 모르겠다"</strong> — 하루 종일 기분이 좋습니다. 겉으로는 "아 그래?" 하고 넘어갑니다. 속으로는 몇 번 곱씹습니다.</li>
+            <li><strong>"역시 너밖에 없다"</strong> — 티는 안 내지만 좋아합니다. 이 말을 해 준 사람은 오래 기억합니다.</li>
+          </ul></dd></div>
+          <div><dt class="mono">스트레스받으면</dt><dd><strong>티가 납니다.</strong> 숨겨 보려고 한 적은 있습니다. 잘 안 됐습니다. 말수가 줄고 답장이 짧아지면 그 상태입니다. 이럴 때는 "무슨 일 있어?"보다 "밥 먹을래?"가 더 잘 통합니다.</dd></div>
+          <div><dt class="mono">회복하는 법</dt><dd><strong>자면</strong> 대체로 회복됩니다. 많이 자면 완전히 회복됩니다. 회복 속도는 꽤 빠른 편입니다. 다음 날이면 대부분 아무 일 없었던 사람이 되어 있습니다.</dd></div>
+          <div><dt class="mono">연락 스타일</dt><dd>답장은 <strong>빠른 편</strong>입니다. 읽고 안 읽은 척은 안 합니다. 답장이 늦으면 진짜 바쁜 겁니다. 전화는 미리 말해 주면 받습니다. 갑자기 오면 일단 한 번 쳐다봅니다.</dd></div>
+          <div><dt class="mono">약속</dt><dd>약속 시간에는 <strong>5분 일찍</strong> 도착하는 편입니다. 늦을 것 같으면 미리 말합니다. 상대방이 늦는 건 <strong>20분까지는</strong> 괜찮습니다. 그 이후로는 괜찮은 척합니다.</dd></div>
+          <div><dt class="mono">같이 밥 먹을 때</dt><dd>먹는 속도는 <strong>느린 편</strong>입니다. 메뉴 선택권을 주면 늘 먹던 걸 고릅니다. 정해 주면 군말 없이 먹습니다. 천천히 먹습니다. 마지막 한 조각은 대체로 양보합니다. 속으로는 좀 아쉬워합니다.</dd></div>
+        </dl>
+    </div>
+    <div class="panel" id="p-someday" role="tabpanel" aria-labelledby="t-someday" hidden>
+      <h2 class="panel-title">언젠가는 <i>할 겁니다.</i></h2>
+        <div class="rows">
+          <div class="row"><span class="q mono">언젠가</span><span class="a"><strong>놀고먹기.</strong> 몇 년째 언젠가입니다. 올해는 진짜 할 거라고 작년에도 말했습니다.</span></div>
+          <div class="row"><span class="q mono">장비도 안 삼</span><span class="a"><strong>테니스 배우기.</strong> 장비도 아직 안 샀습니다. 시작은 그보다 더 아직입니다.</span></div>
+          <div class="row"><span class="q mono">완료</span><span class="a"><strong>잘 모르겠습니다.</strong> 해 본 건 많은데 한 번으로 충분했던 건 딱히 없습니다. 대체로 두 번은 합니다.</span></div>
+          <div class="row"><span class="q mono">비밀</span><span class="a"><strong>적당히 벌고 재밌게 살기.</strong> 여기 처음 적습니다. 적었으니 이제 해야 합니다.</span></div>
+        </div>
+    </div>
+    <div class="panel" id="p-faq" role="tabpanel" aria-labelledby="t-faq" hidden>
+      <h2 class="panel-title">자주 묻는 질문 <i>사실 아무도 안 물어봤습니다.</i></h2>
+        <dl class="spec">
+          <div><dt class="mono">이름 뜻이 뭐예요?</dt><dd><strong class="ans">"진리를 펼쳐라"라고 합니다.</strong> 명령형이라 조금 부담스럽습니다. 이름값을 하는지는 잘 모르겠습니다. 노력은 하고 있습니다.</dd></div>
+          <div><dt class="mono">별명 있어요?</dt><dd><strong class="ans">벌꿀오소리입니다.</strong> 성격이 비슷해서 생겼습니다. 어떤 동물인지 한번 찾아보시면 이해가 빠릅니다. 처음엔 별로 마음에 안 들었는데 이제는 부르면 대답합니다.</dd></div>
+          <div><dt class="mono">고향이 어디예요?</dt><dd><strong class="ans">익산입니다.</strong> 사투리는 안 쓴다고 생각합니다.</dd></div>
+          <div><dt class="mono">혈액형은요?</dt><dd><strong class="ans">A형입니다.</strong> 맞혀 보라고 하면 대체로 틀립니다. 혈액형 성격설은 믿지 않습니다. 다만 A형 피가 급하게 필요하시면 연락 주세요. 이 페이지에서 유일하게 농담이 아닌 문장입니다.</dd></div>
+          <div><dt class="mono">주량은요?</dt><dd><strong class="ans">3병입니다.</strong> 알아서 믿으십쇼. 취하면 집에 갑니다. 아무리 취해도 집 주소는 안 까먹습니다.</dd></div>
+          <div><dt class="mono">이건 왜 만들었어요?</dt><dd><strong class="ans">자기소개를 매번 하기가 귀찮아서입니다.</strong> 이제 링크만 보내면 됩니다. 여기까지 읽으셨으면 꽤 친해진 겁니다.</dd></div>
+        </dl>
+        <p class="faq-more mono"><a href="#ask">더 궁금한 게 있다면 → 질문함</a></p>
     </div>
   </section>
 
-  <section class="card rv">
-    <div class="card-head mono"><span>바로가기</span><span>Menu</span></div>
-    <nav class="quick">
-          <a href="tmi.html"><span class="mono">01</span><b>My TMI</b><span class="t">알아도 딱히 도움은 안 됩니다.</span><span class="go">→</span></a>
-          <a href="day.html"><span class="mono">02</span><b>A Day</b><span class="t">하루는 대체로 비슷하게 흘러갑니다.</span><span class="go">→</span></a>
-          <a href="quotes.html"><span class="mono">03</span><b>Things people say</b><span class="t">남들이 그러는데 제가 이렇답니다.</span><span class="go">→</span></a>
-          <a href="manual.html"><span class="mono">04</span><b>How to deal with me</b><span class="t">다루기 어렵지 않습니다.</span><span class="go">→</span></a>
-          <a href="someday.html"><span class="mono">05</span><b>Someday</b><span class="t">언젠가는 할 겁니다.</span><span class="go">→</span></a>
-          <a href="faq.html"><span class="mono">06</span><b>FAQ</b><span class="t">사실 아무도 안 물어봤습니다.</span><span class="go">→</span></a>
-          <a href="ask.html"><span class="mono">07</span><b>Ask</b><span class="t">궁금한 게 있으면 물어보셔도 됩니다.</span><span class="go">→</span></a>
-          <a href="gallery.html"><span class="mono">08</span><b>Gallery</b><span class="t">사진은 대체로 잘 나온 것만 올립니다.</span><span class="go">→</span></a>
-          <a href="contact.html"><span class="mono">09</span><b>Contact</b><span class="t">더 궁금하다면. 답장은 대체로 합니다.</span><span class="go">→</span></a>
-    </nav>
-  </section>
+  <div class="dash-bottom">
+    <section class="card rv" id="gallery">
+      <div class="card-head mono"><span>Gallery</span><span>사진은 대체로 잘 나온 것만</span></div>
+      <div class="shots">
+        <figure class="shot">
+          <button type="button" data-src="images/profile.jpg"><img src="images/profile.jpg" alt="치즈버거를 먹는 김진서" loading="lazy"></button>
+          <figcaption>치즈가 생각보다 길었습니다.</figcaption>
+        </figure>
+        <span class="empty mono">곧 올라옵니다</span>
+        <span class="empty mono">아마도요</span>
+      </div>
+    </section>
+
+    <section class="card rv" id="ask">
+      <div class="card-head mono"><span>Ask</span><span>질문함</span></div>
+      <form class="ask" id="ask-form">
+        <label class="mono" for="ask-q">궁금한 게 있으면 물어보셔도 됩니다.</label>
+        <textarea id="ask-q" name="question" required maxlength="1000" placeholder="아무거나 물어보세요. 대체로 대답합니다."></textarea>
+        <input id="ask-name" name="name" type="text" maxlength="40" placeholder="이름 (안 적어도 됩니다)">
+        <button type="submit" class="rand-btn mono">보내기 →</button>
+        <p class="ask-msg" id="ask-msg" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
 
   </main>
 
@@ -104,6 +179,10 @@
     <span>Last updated 2026.10</span>
   </footer>
 
+</div>
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button type="button" class="lb-close mono" aria-label="닫기">Close ✕</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
 </div>
 <script src="script.js"></script>
 </body>
