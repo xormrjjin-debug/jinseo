@@ -629,3 +629,4 @@
   .rank-list li b { font-weight: 700; }
   .rank-list .rank-empty { display: block; color: var(--mute); border: 0; }
   .rank-list .rank-empty::before { content: none; }
+  .pl-gate[hidden], .pl-who[hidden] { display: none; }
