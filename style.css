@@ -484,3 +484,62 @@
   @media (max-width: 820px) {
     .play { grid-template-columns: minmax(0, 1fr); }
   }
+
+  /* ---------- 벌꿀오소리 진화 ---------- */
+  .bd-stage { position: relative; overflow: hidden; height: 190px; transition: height .5s, background .6s; }
+  .bd-stage > * { position: absolute; }
+  .bd-pet { position: relative; z-index: 3; transition: font-size .6s cubic-bezier(.3,1.6,.5,1), filter .4s; }
+  .bd-crown { position: absolute; left: 50%; top: -0.42em; transform: translateX(-50%) rotate(-8deg); font-size: .42em; display: none; }
+  .bd-aura { inset: 0; margin: auto; width: 0; height: 0; border-radius: 50%; z-index: 1; transition: all .6s; }
+  .bd-rays { inset: -60%; z-index: 0; opacity: 0; transition: opacity .6s; }
+  .bd-acc { z-index: 4; font-size: 30px; transition: all .4s; }
+  .bd-acc-a { right: 18%; bottom: 14%; }
+  .bd-acc-b { left: 18%; top: 16%; }
+  .bd-spark { z-index: 4; font-size: 18px; opacity: 0; }
+
+  /* 1차: 벌꿀오소리 */
+  .bd-stage[data-form="1"] .bd-aura { width: 150px; height: 150px; background: radial-gradient(circle, rgba(255,190,60,.35), transparent 70%); }
+  /* 2차: 사나운꿀오소리 */
+  .bd-stage[data-form="2"] { height: 220px; }
+  .bd-stage[data-form="2"] .bd-aura { width: 210px; height: 210px; background: radial-gradient(circle, rgba(255,120,30,.45), transparent 70%); animation: bd-pulse 1.6s ease-in-out infinite; }
+  .bd-stage[data-form="2"] .bd-pet { filter: drop-shadow(0 0 10px rgba(255,110,20,.7)); }
+  .bd-stage[data-form="2"] .bd-acc { font-size: 36px; animation: bd-zap 1.2s steps(2) infinite; }
+  .bd-stage[data-form="2"] .bd-acc-a { right: 14%; bottom: auto; top: 20%; }
+  .bd-stage[data-form="2"] .bd-acc-b { left: 14%; top: 20%; }
+  /* 최종: 메가 벌꿀오소리 */
+  .bd-stage[data-form="3"] { height: 270px; background: radial-gradient(circle at 50% 55%, #4a2a00, #140b02 75%); }
+  .bd-stage[data-form="3"] .bd-rays { opacity: .55; background: repeating-conic-gradient(rgba(255,200,60,.35) 0 8deg, transparent 8deg 22deg); animation: bd-spin 14s linear infinite; }
+  .bd-stage[data-form="3"] .bd-aura { width: 250px; height: 250px; background: radial-gradient(circle, rgba(255,215,90,.75), rgba(255,120,0,.25) 45%, transparent 70%); animation: bd-pulse 1.3s ease-in-out infinite; }
+  .bd-stage[data-form="3"] .bd-pet { filter: drop-shadow(0 0 14px rgba(255,215,80,.95)) drop-shadow(0 0 30px rgba(255,120,0,.6)) saturate(1.3); animation: bd-float 2.4s ease-in-out infinite; }
+  .bd-stage[data-form="3"] .bd-crown { display: block; }
+  .bd-stage[data-form="3"] .bd-acc { font-size: 44px; bottom: 8%; top: auto; animation: bd-flame .5s ease-in-out infinite alternate; }
+  .bd-stage[data-form="3"] .bd-acc-a { right: 12%; }
+  .bd-stage[data-form="3"] .bd-acc-b { left: 12%; }
+  .bd-stage[data-form="3"] .bd-spark { opacity: 1; animation: bd-twinkle 1.8s ease-in-out infinite; }
+  .bd-stage[data-form="3"] .s1 { left: 22%; top: 14%; }
+  .bd-stage[data-form="3"] .s2 { right: 24%; top: 10%; animation-delay: .6s; }
+  .bd-stage[data-form="3"] .s3 { right: 30%; bottom: 30%; animation-delay: 1.2s; }
+
+  /* 진화 연출 */
+  .bd-stage.evolving .bd-pet { animation: bd-silhouette .18s steps(2) infinite; }
+  .bd-stage.flash::after { content: ""; position: absolute; inset: 0; background: #fff; z-index: 9; animation: bd-flash .9s ease-out forwards; }
+
+  @keyframes bd-pulse { 50% { transform: scale(1.12); opacity: .75; } }
+  @keyframes bd-spin { to { transform: rotate(360deg); } }
+  @keyframes bd-float { 50% { transform: translateY(-8px); } }
+  @keyframes bd-zap { 50% { opacity: .2; } }
+  @keyframes bd-flame { to { transform: translateY(-4px) scale(1.1); } }
+  @keyframes bd-twinkle { 50% { opacity: .2; transform: scale(.6); } }
+  @keyframes bd-silhouette { 0% { filter: brightness(0) invert(1); } 100% { filter: brightness(0); } }
+  @keyframes bd-flash { from { opacity: 1; } to { opacity: 0; } }
+
+  .bd-next { height: 6px; background: var(--hair); position: relative; }
+  .bd-next span { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--hot); transition: width .5s; }
+  .bd-next-txt { margin: -4px 0 0; color: var(--mute); }
+  .bd-btns { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .bd-reset {
+    font: inherit; font-family: var(--mono); font-size: 12px; color: var(--mute); background: none; border: 0;
+    text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 6px 0;
+  }
+  .bd-reset:hover { color: var(--hot); }
+  @media (prefers-reduced-motion: reduce) { .bd-stage *, .bd-stage { animation: none !important; } }

@@ -6,7 +6,7 @@
 <title>Play — 김진서</title>
 <meta name="description" content="김진서">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <div class="wrap">
@@ -44,11 +44,23 @@
 
         <!-- 2. 다 같이 키우는 벌꿀오소리 -->
         <article class="pbox" id="badger">
-          <p class="pbox-head mono"><span>02 · 다 같이 키우는 벌꿀오소리</span><span>Lv. <span id="bd-lv">-</span></span></p>
-          <div class="bd-stage"><span class="bd-pet" id="bd-pet" aria-hidden="true">🦡</span></div>
-          <p class="bd-stat">지금까지 밥 <strong id="bd-count">-</strong>번 · 상태: <strong id="bd-mood">-</strong></p>
-          <p class="pbox-msg" id="bd-msg">모두가 같이 키웁니다. 밥 준 기록은 전부 쌓입니다.</p>
-          <button type="button" class="rand-btn mono" id="bd-btn">밥 주기 🍯</button>
+          <p class="pbox-head mono"><span>02 · 다 같이 키우는 벌꿀오소리</span><span id="bd-form-name">-</span></p>
+          <div class="bd-stage" id="bd-stage" data-form="0">
+            <span class="bd-aura"></span>
+            <span class="bd-rays"></span>
+            <span class="bd-acc bd-acc-a" id="bd-acc-a"></span>
+            <span class="bd-acc bd-acc-b" id="bd-acc-b"></span>
+            <span class="bd-pet" id="bd-pet" aria-hidden="true"><span class="bd-crown">👑</span>🦡</span>
+            <span class="bd-spark s1">✨</span><span class="bd-spark s2">✨</span><span class="bd-spark s3">✨</span>
+          </div>
+          <p class="bd-stat">밥 <strong id="bd-count">-</strong>번 · Lv. <strong id="bd-lv">-</strong> · 상태: <strong id="bd-mood">-</strong></p>
+          <div class="bd-next"><span id="bd-next-fill"></span></div>
+          <p class="bd-next-txt mono" id="bd-next-txt">-</p>
+          <p class="pbox-msg" id="bd-msg">모두가 같이 키웁니다. 밥 25번이면 진화합니다.</p>
+          <div class="bd-btns">
+            <button type="button" class="rand-btn mono" id="bd-btn">밥 주기 🍯</button>
+            <button type="button" class="bd-reset mono" id="bd-reset">밥 초기화</button>
+          </div>
         </article>
 
         <!-- 5. 카페인 충전 게이지 -->
@@ -86,6 +98,6 @@
 
 
 </div>
-<script src="script.js?v=9"></script>
+<script src="script.js?v=10"></script>
 </body>
 </html>

@@ -180,29 +180,89 @@
     tick(); setInterval(tick, 30000);
   }
 
-  // 2. 다 같이 키우는 벌꿀오소리
+  // 2. 다 같이 키우는 벌꿀오소리 (25번 1차 진화 · 70번 2차 진화 · 200번 메가진화)
   const bdBtn = document.getElementById('bd-btn');
   if (bdBtn) {
+    const KEY = 'honeybadger';
+    const ADMIN = '22e196eb-5d67-445f-8622-add243a7de51';   // 초기화용 키
+    const forms = [
+      { at: 0,   name: '아기오소리',      size: 64,  a: '',   b: '' },
+      { at: 25,  name: '벌꿀오소리',      size: 92,  a: '🍯', b: '' },
+      { at: 70,  name: '사나운꿀오소리',  size: 120, a: '⚡', b: '⚡' },
+      { at: 200, name: '메가 벌꿀오소리', size: 150, a: '🔥', b: '🔥' },
+    ];
     const moods = ['배고픔', '예민함', '사나움', '만족함', '졸림'];
     const lines = ['먹었습니다. 고맙다는 말은 안 합니다.', '먹었습니다. 더 달라는 눈빛입니다.', '꿀만 골라 먹었습니다.',
       '먹다가 물 뻔했습니다. 친해졌다는 뜻입니다.', '먹고 바로 잡니다.', '먹었습니다. 대체로 괜찮은 맛이었습니다.'];
-    const pet = document.getElementById('bd-pet');
-    const render = n => {
-      if (n === null) { document.getElementById('bd-count').textContent = '-'; return; }
-      const lv = Math.floor(Math.sqrt(n / 2)) + 1;
-      document.getElementById('bd-count').textContent = n.toLocaleString();
-      document.getElementById('bd-lv').textContent = lv;
-      document.getElementById('bd-mood').textContent = moods[n % moods.length];
-      pet.style.fontSize = Math.min(44 + lv * 6, 130) + 'px';
+    const $ = id => document.getElementById(id);
+    const stage = $('bd-stage'), pet = $('bd-pet'), msg = $('bd-msg');
+    const formOf = n => forms.reduce((f, x, i) => (n >= x.at ? i : f), 0);
+    let shown = -1, busy = false;
+
+    const draw = n => {
+      const fi = formOf(n), f = forms[fi], next = forms[fi + 1];
+      stage.dataset.form = fi;
+      pet.style.fontSize = f.size + 'px';
+      $('bd-acc-a').textContent = f.a; $('bd-acc-b').textContent = f.b;
+      $('bd-form-name').textContent = f.name;
+      $('bd-count').textContent = n.toLocaleString();
+      $('bd-lv').textContent = Math.floor(Math.sqrt(n / 2)) + 1;
+      $('bd-mood').textContent = fi === 3 ? '전설' : moods[n % moods.length];
+      if (next) {
+        $('bd-next-fill').style.width = ((n - f.at) / (next.at - f.at) * 100) + '%';
+        $('bd-next-txt').textContent = `다음 진화까지 밥 ${next.at - n}번 → ${next.name}`;
+      } else {
+        $('bd-next-fill').style.width = '100%';
+        $('bd-next-txt').textContent = '최종 진화 완료. 더 줘도 먹긴 합니다.';
+      }
+      shown = fi;
     };
-    shared('get', 'badger').then(render);
+
+    const evolve = n => new Promise(done => {
+      busy = true;
+      const prev = forms[shown].name;
+      msg.textContent = `어라…? ${prev}의 상태가…!`;
+      stage.classList.add('evolving');
+      setTimeout(() => {
+        stage.classList.remove('evolving');
+        stage.classList.add('flash');
+        draw(n);
+        const f = forms[formOf(n)];
+        msg.textContent = formOf(n) === 3
+          ? `축하합니다! ${prev}는 ${f.name}로 메가진화했습니다!`
+          : `축하합니다! ${prev}는 ${f.name}로 진화했습니다!`;
+        setTimeout(() => { stage.classList.remove('flash'); busy = false; done(); }, 900);
+      }, 1800);
+    });
+
+    const api = (op, opts) => fetch(`https://abacus.jasoncameron.dev/${op}/xormrjjin-debug-jinseo-v2/${KEY}`, opts)
+      .then(r => r.ok ? r.json() : { value: 0 }).then(d => d.value || 0).catch(() => null);
+
+    api('get').then(n => { if (n === null) { $('bd-count').textContent = '-'; return; } draw(n); });
+
     bdBtn.addEventListener('click', () => {
+      if (busy) return;
       bdBtn.disabled = true;
-      shared('hit', 'badger').then(n => {
-        render(n);
-        document.getElementById('bd-msg').textContent = n === null ? '지금은 밥을 못 받습니다. 잠시 후에 다시 주세요.' : pick(lines);
+      api('hit').then(n => {
+        if (n === null) { msg.textContent = '지금은 밥을 못 받습니다. 잠시 후에 다시 주세요.'; bdBtn.disabled = false; return; }
+        const before = shown;
         pet.classList.add('bump'); setTimeout(() => pet.classList.remove('bump'), 160);
-        setTimeout(() => { bdBtn.disabled = false; }, 400);
+        if (before !== -1 && formOf(n) > before) {
+          evolve(n).then(() => { bdBtn.disabled = false; });
+        } else {
+          draw(n); msg.textContent = pick(lines);
+          setTimeout(() => { bdBtn.disabled = false; }, 300);
+        }
+      });
+    });
+
+    $('bd-reset').addEventListener('click', () => {
+      if (busy) return;
+      if (!confirm('정말 초기화할까요? 모두가 준 밥이 0번으로 돌아갑니다.')) return;
+      api('reset', { method: 'POST', headers: { Authorization: 'Bearer ' + ADMIN } }).then(n => {
+        if (n === null) { msg.textContent = '초기화가 안 됐습니다. 잠시 후에 다시 해 주세요.'; return; }
+        draw(0);
+        msg.textContent = '처음부터 다시 키웁니다. 기억은 못 합니다.';
       });
     });
   }
